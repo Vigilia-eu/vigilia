@@ -33,6 +33,17 @@
   .conv-card { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 12px; padding: 24px 22px; }
   .conv-card h4 { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .03em; font-size: .95rem; color: var(--gold); margin-bottom: 10px; }
   .conv-card p { font-size: .92rem; color: var(--muted); line-height: 1.55; }
+
+  /* lexicon */
+  .lex-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 36px; }
+  @media(max-width:760px) { .lex-grid { grid-template-columns: repeat(2,1fr); } }
+  @media(max-width:440px) { .lex-grid { grid-template-columns: 1fr; } }
+  .lex-item { background: rgba(255,255,255,.03); border: 1px solid var(--line); padding: 22px 22px 20px; position: relative; }
+  .lex-item::before { content: attr(data-pos); position: absolute; top: 16px; right: 18px; font-family: var(--cond); font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(176,200,224,.3); }
+  .lex-word { font-family: var(--display); text-transform: uppercase; font-size: 1.55rem; color: var(--gold); letter-spacing: .02em; line-height: 1; margin-bottom: 6px; }
+  .lex-latin { font-family: var(--cond); font-size: .74rem; font-style: italic; letter-spacing: .04em; color: rgba(176,200,224,.45); margin-bottom: 12px; }
+  .lex-def { font-size: .88rem; color: var(--muted); line-height: 1.55; }
+  .lex-points-to { margin-top: 10px; font-family: var(--cond); font-weight: 700; font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(240,168,32,.5); }
 </style>
 </head>
 <body>
@@ -127,6 +138,72 @@
       <div class="conv-card reveal">
         <h4>The red line</h4>
         <p>Any partner or node whose editorial voice drifts toward identitarian or far-right framing is disqualified. We amplify what we believe in. That constraint is load-bearing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">Lexicon</span>
+      <h2 class="disp">The words <span class="hl">we use.</span></h2>
+      <p>Vigilia uses Latin throughout — the one language that belongs to no single European state. Below is what each term means, and where it appears in the system.</p>
+    </div>
+    <div class="lex-grid">
+      <div class="lex-item reveal" data-pos="noun · f.">
+        <div class="lex-word">Vigilia</div>
+        <div class="lex-latin">vigilō — to keep watch, to stay awake</div>
+        <div class="lex-def">The watchman who stays alert while others sleep. The name of the project and its public identity.</div>
+        <div class="lex-points-to">→ the brand</div>
+      </div>
+      <div class="lex-item reveal" data-pos="noun · pl.">
+        <div class="lex-word">Capitula</div>
+        <div class="lex-latin">caput — head, beginning, chapter</div>
+        <div class="lex-def">The chapters of the system. Navigation section grouping the three core parts of the platform.</div>
+        <div class="lex-points-to">→ nav section</div>
+      </div>
+      <div class="lex-item reveal" data-pos="noun · n.">
+        <div class="lex-word">Caput</div>
+        <div class="lex-latin">caput — head, chapter, source</div>
+        <div class="lex-def">One chapter. Used as Caput I, II and III to mark the three main sections of the platform.</div>
+        <div class="lex-points-to">→ chapter marker</div>
+      </div>
+      <div class="lex-item reveal" data-pos="noun · f.">
+        <div class="lex-word">Machina</div>
+        <div class="lex-latin">māchinor — to contrive, to construct</div>
+        <div class="lex-def">The editorial engine. Caput I — the automated pipeline that produces articles, translations and briefings at scale.</div>
+        <div class="lex-points-to">→ Caput I · engine.html</div>
+      </div>
+      <div class="lex-item reveal" data-pos="noun · f.">
+        <div class="lex-word">Foederatio</div>
+        <div class="lex-latin">foedus — treaty, alliance, bond</div>
+        <div class="lex-def">The federated network. Caput II — the infrastructure connecting independent nodes across Europe under one editorial standard.</div>
+        <div class="lex-points-to">→ Caput II · federation.html</div>
+      </div>
+      <div class="lex-item reveal" data-pos="prep. + pron.">
+        <div class="lex-word">De Nobis</div>
+        <div class="lex-latin">de — concerning · nos — we, ourselves</div>
+        <div class="lex-def">Concerning ourselves. Caput III — the team, the conviction, and the reasons behind the project.</div>
+        <div class="lex-points-to">→ Caput III · who.html</div>
+      </div>
+      <div class="lex-item reveal" data-pos="noun · f.">
+        <div class="lex-word">Bibliotheca</div>
+        <div class="lex-latin">βιβλιοθήκη — book depository (Greek)</div>
+        <div class="lex-def">The library. Navigation section grouping all research and reference material produced or curated by Vigilia.</div>
+        <div class="lex-points-to">→ nav section</div>
+      </div>
+      <div class="lex-item reveal" data-pos="noun · pl.">
+        <div class="lex-word">Annales</div>
+        <div class="lex-latin">annus — year · annālis — yearly record</div>
+        <div class="lex-def">Year-by-year chronicles. The structured research library: documented operations, actors, parties and narratives, tiered by evidence.</div>
+        <div class="lex-points-to">→ Bibliotheca · annales.html</div>
+      </div>
+      <div class="lex-item reveal" data-pos="noun · pl.">
+        <div class="lex-word">Terrae</div>
+        <div class="lex-latin">terra — land, country, territory</div>
+        <div class="lex-def">The countries. A view within Annales that indexes all research entries by the countries they involve — EU members first.</div>
+        <div class="lex-points-to">→ Annales · country index</div>
       </div>
     </div>
   </div>
