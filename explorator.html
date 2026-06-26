@@ -67,6 +67,48 @@
   .sep-arr { color: rgba(240,168,32,.5); font-weight: 700; font-size: 1.1rem; }
   .sep-human { background: var(--gold); color: var(--navy); border-color: var(--gold); }
 
+  /* risk levels */
+  .risk-bar { display: grid; grid-template-columns: repeat(5,1fr); gap: 3px; margin-top: 36px; border-radius: 12px; overflow: hidden; }
+  @media(max-width:760px) { .risk-bar { grid-template-columns: 1fr; gap: 2px; } }
+  .risk { padding: 18px 16px; }
+  .risk-low { background: rgba(255,255,255,.04); }
+  .risk-med { background: rgba(230,200,30,.07); }
+  .risk-high { background: rgba(220,140,30,.1); }
+  .risk-crit { background: rgba(220,80,30,.13); }
+  .risk-crit-plus { background: rgba(210,40,30,.17); }
+  .r-n { display: block; font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; margin-bottom: 6px; }
+  .risk-low .r-n { color: var(--muted); }
+  .risk-med .r-n { color: #c8b838; }
+  .risk-high .r-n { color: #d47828; }
+  .risk-crit .r-n { color: #d85030; }
+  .risk-crit-plus .r-n { color: #d83030; }
+  .r-d { font-size: .82rem; color: var(--muted); line-height: 1.4; }
+
+  /* pre-debunk */
+  .prebunk { background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 14px; padding: 36px 38px; margin-top: 42px; max-width: 760px; }
+  .prebunk-title { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: .82rem; color: #e8f0ff; margin-bottom: 12px; }
+  .prebunk p { font-size: 1rem; color: #c0d0e8; line-height: 1.65; margin: 0 0 14px; }
+  .prebunk p:last-child { margin-bottom: 0; }
+  .prebunk-rules { margin: 14px 0 0; list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .prebunk-rules li { font-size: .9rem; color: var(--muted); line-height: 1.5; padding-left: 22px; position: relative; }
+  .prebunk-rules li::before { content: '—'; position: absolute; left: 0; color: rgba(240,168,32,.5); }
+
+  /* landscape */
+  .ls-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; margin-top: 42px; }
+  @media(max-width:680px) { .ls-grid { grid-template-columns: 1fr; } }
+  .ls-card { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 12px; padding: 22px 20px; }
+  .ls-card .ls-tag { font-family: var(--cond); font-weight: 700; font-size: .68rem; letter-spacing: .07em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; background: rgba(255,255,255,.06); color: var(--muted); border: 1px solid var(--line); margin-bottom: 10px; display: inline-block; }
+  .ls-card h3 { font-family: var(--cond); font-weight: 800; font-size: .9rem; text-transform: uppercase; letter-spacing: .04em; color: #e8f0ff; margin-bottom: 8px; }
+  .ls-card p { font-size: .88rem; color: var(--muted); line-height: 1.5; margin: 0; }
+  .ls-gaps { margin-top: 28px; background: rgba(240,168,32,.05); border: 1.5px solid rgba(240,168,32,.2); border-radius: 14px; padding: 30px 32px; }
+  .ls-gaps-title { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: .82rem; color: var(--gold); margin-bottom: 18px; }
+  .ls-gap { display: flex; gap: 16px; margin-bottom: 14px; align-items: flex-start; }
+  .ls-gap:last-child { margin-bottom: 0; }
+  .ls-gap-n { font-family: var(--display); font-size: 1.4rem; color: rgba(240,168,32,.3); line-height: 1.1; flex: none; width: 26px; }
+  .ls-gap-text { font-size: .92rem; color: #c0d0e8; line-height: 1.5; }
+  .ls-complete { font-family: var(--display); font-size: clamp(1.05rem,2.2vw,1.35rem); color: #e8f0ff; line-height: 1.5; margin-top: 32px; padding: 24px 28px; border-left: 3px solid var(--gold); background: rgba(255,255,255,.03); border-radius: 0 12px 12px 0; }
+  .ls-complete em { color: var(--gold); font-style: normal; }
+
   /* in the federation */
   .fed-connect { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 42px; }
   @media(max-width:680px) { .fed-connect { grid-template-columns: 1fr; } }
@@ -247,6 +289,14 @@
         <p>Is the narrative climbing tiers — from seedbed to fringe to political? Tier-climbing at speed is the bridge pattern. Catching it here is the whole point.</p>
       </div>
     </div>
+    <p class="reveal" style="margin-top:34px;color:var(--muted);font-size:.92rem;max-width:56ch;">Every cluster receives a combined risk score across all three dimensions. The score determines what happens next.</p>
+    <div class="risk-bar reveal">
+      <div class="risk risk-low"><span class="r-n">Low</span><span class="r-d">Background noise. No action needed.</span></div>
+      <div class="risk risk-med"><span class="r-n">Medium</span><span class="r-d">Pattern worth watching. Daily digest.</span></div>
+      <div class="risk risk-high"><span class="r-n">High</span><span class="r-d">Coordination likely. Rapid alert to analyst.</span></div>
+      <div class="risk risk-crit"><span class="r-n">Critical</span><span class="r-d">Strong signals. Mainstream jump imminent.</span></div>
+      <div class="risk risk-crit-plus"><span class="r-n">Critical+</span><span class="r-d">Confirmed campaign. Immediate escalation.</span></div>
+    </div>
   </div>
 </section>
 
@@ -271,6 +321,87 @@
       </div>
       <p>This is what separates Vigilia from the networks it monitors. Those networks automate the full cycle — detect, amplify, publish — without a human in the loop. Vigilia does not. The human analyst is the only bridge between reconnaissance and response. That is not a limitation. It is the architecture of legitimacy.</p>
     </div>
+  </div>
+</section>
+
+<!-- THE PRE-DEBUNK -->
+<section class="block">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">Detection as inoculation</span>
+      <h2 class="disp">Not correction. <span class="hl">Prevention.</span></h2>
+      <p>Debunking is reactive — you correct after the damage is done, and research shows people remember the claim, not the correction. Explorator makes a different move possible: inoculate against the manipulation technique before the narrative arrives.</p>
+    </div>
+    <div class="prebunk reveal">
+      <div class="prebunk-title">The handoff: detection → inoculation</div>
+      <p>When Explorator detects a narrative seeding across independent channels in a narrow time window, the signal goes to a human analyst. If confirmed, it becomes a brief for journalists and partners — not "this story is false," but "this framing technique is being deployed right now, here is how to recognise it."</p>
+      <p>The reader who encounters the adversarial narrative has already seen the pattern exposed. That is inoculation. It works before the breakthrough, not after.</p>
+      <div class="prebunk-title" style="margin-top:24px;">The discipline rules</div>
+      <ul class="prebunk-rules">
+        <li>Inoculate against the <em>technique</em>, not the claim. Expose the trick, don't amplify the rumour.</li>
+        <li>Detection output goes to analysts and partners only. Never a public alert that gives the narrative oxygen.</li>
+        <li>Flag coordinated amplification, not the political position — keeps Vigilia out of the "arbiter of truth" role.</li>
+        <li>Networks and patterns only. Not individuals.</li>
+        <li>Every assessment carries a readable rationale and an audit trail. No black-box verdicts.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- THE LANDSCAPE -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">The landscape</span>
+      <h2 class="disp">Many players. <span class="hl">Five gaps.</span></h2>
+      <p>Europe has organisations working on disinformation — some excellent. But mapping them against the four-stage attack cycle reveals five structural gaps that none of them fill. Those gaps are exactly what Explorator is designed for.</p>
+    </div>
+    <div class="ls-grid reveal">
+      <div class="ls-card">
+        <span class="ls-tag">EU institutions</span>
+        <h3>EUvsDisinfo · EDMO · ECDR</h3>
+        <p>Real scale, real legitimacy. They debunk Russian propaganda, certify fact-checkers, and coordinate across member states. But slow by design — and the EU stamp is counterproductive with exactly the audiences you need to reach.</p>
+      </div>
+      <div class="ls-card">
+        <span class="ls-tag">Research organisations</span>
+        <h3>EU DisinfoLab · DFRLab · Bellingcat</h3>
+        <p>Gold-standard investigative work and bot-network mapping. But investigations take weeks, and the strongest labs carry US or Atlantic Council associations — an attack surface in European politics.</p>
+      </div>
+      <div class="ls-card">
+        <span class="ls-tag">Grassroots</span>
+        <h3>NAFO · Lithuanian Elves · French Response</h3>
+        <p>Extremely fast. NAFO attacks pro-Russian accounts with humour at scale; the Elves have tracked Baltic troll networks for years. But no quality control, predominantly English, and geographically limited.</p>
+      </div>
+      <div class="ls-card">
+        <span class="ls-tag">National fact-checkers</span>
+        <h3>Correctiv · Maldita · AFP · Pagella</h3>
+        <p>Strong and local, some at high volume. But they correct case by case, after the fact. The model is reactive by definition — they cannot intervene at Stage 1.</p>
+      </div>
+    </div>
+    <div class="ls-gaps reveal">
+      <div class="ls-gaps-title">Five structural gaps that no one fills</div>
+      <div class="ls-gap">
+        <div class="ls-gap-n">1</div>
+        <div class="ls-gap-text"><strong>Stage 1–2 monitoring</strong> — no one watches the seedbed-to-fringe pipeline fast enough, in enough languages, at continental scale.</div>
+      </div>
+      <div class="ls-gap">
+        <div class="ls-gap-n">2</div>
+        <div class="ls-gap-text"><strong>The journalist filter</strong> — no fast, trusted service lets a newsroom check before publication: where does this story come from, and is it coordinated?</div>
+      </div>
+      <div class="ls-gap">
+        <div class="ls-gap-n">3</div>
+        <div class="ls-gap-text"><strong>Positive narrative absent</strong> — the entire landscape is defensive. No one systematically builds an authentic European story alongside the counter-work.</div>
+      </div>
+      <div class="ls-gap">
+        <div class="ls-gap-n">4</div>
+        <div class="ls-gap-text"><strong>No independent European actor</strong> — strong research labs are US-linked; EU bodies carry the EU stamp. Both are attack surfaces. A genuinely European, independent actor does not exist.</div>
+      </div>
+      <div class="ls-gap">
+        <div class="ls-gap-n">5</div>
+        <div class="ls-gap-text"><strong>Speed</strong> — nothing except NAFO and the French foreign ministry operates fast enough to intervene in the 24–48 hour window. Institutional processes are simply too slow.</div>
+      </div>
+    </div>
+    <div class="ls-complete reveal">Vigilia does not compete with this landscape. <em>It completes it.</em> Every player listed is a potential partner, data source, or distribution channel.</div>
   </div>
 </section>
 
