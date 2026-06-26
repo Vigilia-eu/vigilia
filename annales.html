@@ -106,6 +106,33 @@
     .entry-meta { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
   }
 
+  /* country view */
+  #country-view { margin-top: 20px; display: none; }
+  .ctry-section { border: 1px solid var(--line); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+  .ctry-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 20px; cursor: pointer; user-select: none;
+    background: rgba(255,255,255,.035); transition: background .15s;
+  }
+  .ctry-head:hover { background: rgba(255,255,255,.07); }
+  .ctry-head.open { background: rgba(240,168,32,.06); border-bottom: 1px solid var(--line); }
+  .ctry-flag { font-size: 1.3rem; line-height: 1; }
+  .ctry-name { font-family: var(--cond); font-weight: 800; font-size: .96rem; letter-spacing: .02em; text-transform: uppercase; color: #e8f0ff; flex: 1; }
+  .ctry-eu { font-family: var(--cond); font-weight: 700; font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(240,168,32,.6); background: rgba(240,168,32,.08); border: 1px solid rgba(240,168,32,.2); border-radius: 3px; padding: 2px 7px; }
+  .ctry-count { font-family: var(--cond); font-weight: 700; font-size: .76rem; letter-spacing: .04em; color: var(--muted); }
+  .ctry-arrow { font-size: .9rem; color: rgba(255,255,255,.25); transition: transform .2s; }
+  .ctry-head.open .ctry-arrow { transform: rotate(90deg); }
+  .ctry-entries { display: none; padding: 12px 14px; background: rgba(0,0,0,.12); }
+  .ctry-entries.open { display: grid; gap: 8px; }
+  .ctry-entry { background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 8px; padding: 13px 16px; border-left: 3px solid transparent; }
+  .ctry-entry.tier-documented { border-left-color: #7ec98f; }
+  .ctry-entry.tier-alleged { border-left-color: var(--gold); }
+  .ctry-entry.tier-suspected { border-left-color: rgba(176,200,224,.35); }
+  .ctry-entry-head { display: flex; align-items: center; gap: 9px; margin-bottom: 5px; flex-wrap: wrap; }
+  .ctry-entry h4 { font-family: var(--cond); font-weight: 800; font-size: .92rem; color: #e8f0ff; line-height: 1.2; margin-bottom: 4px; }
+  .ctry-entry p { font-size: .84rem; color: var(--muted); line-height: 1.5; }
+  .ctry-note { padding: 10px 14px; font-family: var(--cond); font-size: .75rem; color: rgba(176,200,224,.4); font-style: italic; }
+
   /* map view */
   .map-container {
     position: relative; margin-top: 20px;
@@ -198,6 +225,7 @@
       </div>
       <div class="view-toggle">
         <button class="vtb on" id="btn-list">List</button>
+        <button class="vtb" id="btn-country">Terrae</button>
         <button class="vtb" id="btn-timeline">Timeline</button>
         <button class="vtb" id="btn-map">Map</button>
       </div>
@@ -217,6 +245,7 @@
   </div>
 
   <div id="list-view"></div>
+  <div id="country-view"></div>
   <div id="timeline-view"></div>
   <div class="map-container" id="map-view"></div>
 </div>
@@ -371,6 +400,7 @@ function render(){
   const entries = filtered();
   document.getElementById('count').textContent = entries.length;
   if(STATE.view==='map'){ buildMap(entries); }
+  if(STATE.view==='country'){ renderCountry(entries); }
 
   // list
   const lv = document.getElementById('list-view');
@@ -421,18 +451,105 @@ document.getElementById('sort').addEventListener('change',function(){
   render();
 });
 
+// Country / Terrae data
+const EU27 = new Set(['AT','BE','BG','CY','CZ','DE','DK','EE','ES','FI','FR','GR','HR','HU','IE','IT','LT','LU','LV','MT','NL','PL','PT','RO','SE','SI','SK']);
+const COUNTRY_NAMES = {
+  AT:'Austria', BE:'Belgium', BG:'Bulgaria', CY:'Cyprus', CZ:'Czech Republic',
+  DE:'Germany', DK:'Denmark', EE:'Estonia', ES:'Spain', FI:'Finland', FR:'France',
+  GR:'Greece', HR:'Croatia', HU:'Hungary', IE:'Ireland', IT:'Italy',
+  LT:'Lithuania', LU:'Luxembourg', LV:'Latvia', MT:'Malta', NL:'Netherlands',
+  PL:'Poland', PT:'Portugal', RO:'Romania', SE:'Sweden', SI:'Slovenia', SK:'Slovakia',
+  // Non-EU relevant
+  BY:'Belarus', GB:'United Kingdom', GE:'Georgia', MA:'Malaysia', AU:'Australia',
+  RU:'Russia', UA:'Ukraine', US:'United States',
+};
+const COUNTRY_FLAGS = {
+  AT:'🇦🇹',BE:'🇧🇪',BG:'🇧🇬',CY:'🇨🇾',CZ:'🇨🇿',DE:'🇩🇪',DK:'🇩🇰',EE:'🇪🇪',
+  ES:'🇪🇸',FI:'🇫🇮',FR:'🇫🇷',GR:'🇬🇷',HR:'🇭🇷',HU:'🇭🇺',IE:'🇮🇪',IT:'🇮🇹',
+  LT:'🇱🇹',LU:'🇱🇺',LV:'🇱🇻',MT:'🇲🇹',NL:'🇳🇱',PL:'🇵🇱',PT:'🇵🇹',RO:'🇷🇴',
+  SE:'🇸🇪',SI:'🇸🇮',SK:'🇸🇰',BY:'🇧🇾',GB:'🇬🇧',GE:'🇬🇪',MY:'🇲🇾',AU:'🇦🇺',
+  RU:'🇷🇺',UA:'🇺🇦',US:'🇺🇸',
+};
+
+function renderCountry(entries){
+  const el=document.getElementById('country-view');
+  // Build country → entries map (many-to-many)
+  const byCountry={};
+  entries.forEach(e=>{
+    (e.countries||[]).forEach(c=>{
+      if(!byCountry[c]) byCountry[c]=[];
+      byCountry[c].push(e);
+    });
+  });
+  const codes=Object.keys(byCountry);
+  if(!codes.length){ el.innerHTML='<div class="empty">No entries match your filters<div class="e-sub">Try adjusting the search or filter settings</div></div>'; return; }
+  // Sort: EU27 alpha first, then non-EU alpha
+  codes.sort((a,b)=>{
+    const ae=EU27.has(a),be2=EU27.has(b);
+    if(ae!==be2) return ae?-1:1;
+    return (COUNTRY_NAMES[a]||a).localeCompare(COUNTRY_NAMES[b]||b);
+  });
+  const ctryEntryHTML=e=>{
+    const srcs=(e.sources||[]).filter(s=>s.label);
+    const srcHTML=srcs.length?'<div class="entry-sources" style="margin-top:8px">'+srcs.slice(0,3).map(s=>
+      s.url?`<a class="src-link" href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`
+           :`<span class="src-link" style="cursor:default">${s.label}</span>`
+    ).join('')+'</div>':'';
+    return `<div class="ctry-entry tier-${e.tier}">
+      <div class="ctry-entry-head">
+        <span class="entry-date">${dateLabel(e.date)}</span>
+        <span class="tier-badge ${e.tier}">${e.tier}</span>
+        <span class="type-badge">${e.type}</span>
+      </div>
+      <h4>${e.title}</h4>
+      <p>${(e.summary||'').slice(0,200)}${e.summary&&e.summary.length>200?'…':''}</p>
+      ${srcHTML}
+    </div>`;
+  };
+  el.innerHTML=codes.map((c,i)=>{
+    const ces=byCountry[c];
+    const flag=COUNTRY_FLAGS[c]||'';
+    const name=COUNTRY_NAMES[c]||c;
+    const euBadge=EU27.has(c)?'<span class="ctry-eu">EU member</span>':'';
+    // Sort entries within country by date desc
+    const sorted=[...ces].sort((a,b)=>parseDate(b.date)-parseDate(a.date));
+    return `<div class="ctry-section">
+      <div class="ctry-head${i===0?' open':''}" onclick="toggleCtry(this)">
+        <span class="ctry-flag">${flag}</span>
+        <span class="ctry-name">${name}</span>
+        ${euBadge}
+        <span class="ctry-count">${ces.length} ${ces.length===1?'entry':'entries'}</span>
+        <span class="ctry-arrow">›</span>
+      </div>
+      <div class="ctry-entries${i===0?' open':''}">
+        ${sorted.map(ctryEntryHTML).join('')}
+        ${ces.length>1?`<div class="ctry-note">${ces.length} entries involve ${name}. An entry may appear under multiple countries.</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCtry(head){
+  const entries=head.nextElementSibling;
+  const isOpen=head.classList.contains('open');
+  head.classList.toggle('open',!isOpen);
+  entries.classList.toggle('open',!isOpen);
+}
+
 function setView(v){
   STATE.view=v;
-  ['list','timeline','map'].forEach(id=>{
+  ['list','country','timeline','map'].forEach(id=>{
     const btn=document.getElementById('btn-'+id);
     if(btn) btn.classList.toggle('on', id===v);
   });
   document.getElementById('list-view').style.display = v==='list' ? 'grid' : 'none';
+  document.getElementById('country-view').style.display = v==='country' ? 'block' : 'none';
   document.getElementById('timeline-view').style.display = v==='timeline' ? 'block' : 'none';
   document.getElementById('map-view').style.display = v==='map' ? 'block' : 'none';
 }
 
 document.getElementById('btn-list').addEventListener('click',function(){ setView('list'); });
+document.getElementById('btn-country').addEventListener('click',function(){ setView('country'); renderCountry(filtered()); });
 document.getElementById('btn-timeline').addEventListener('click',function(){ setView('timeline'); });
 document.getElementById('btn-map').addEventListener('click',function(){ setView('map'); buildMap(filtered()); });
 
@@ -487,16 +604,17 @@ function buildMap(entries){
   });
 
   const svg=d3.select(el).append('svg').attr('width',W).attr('height',H);
+  const gC=svg.append('g').attr('class','map-content'); // all zoomable content
 
   // Lane backgrounds + headers + spine lines
   LANES.forEach((lane,i)=>{
     const x=PAD_L+i*lW;
-    svg.append('rect').attr('x',x).attr('y',0).attr('width',lW).attr('height',H)
+    gC.append('rect').attr('x',x).attr('y',0).attr('width',lW).attr('height',H)
       .attr('fill',i%2===0?'rgba(255,255,255,.015)':'rgba(0,0,0,.08)');
-    svg.append('line')
+    gC.append('line')
       .attr('x1',x+lW/2).attr('y1',PAD_T-6).attr('x2',x+lW/2).attr('y2',H-16)
       .attr('stroke','rgba(255,255,255,.05)').attr('stroke-width',1);
-    svg.append('text')
+    gC.append('text')
       .attr('x',x+lW/2).attr('y',38).attr('text-anchor','middle')
       .attr('font-family','Archivo,sans-serif').attr('font-weight','700')
       .attr('font-size','10').attr('letter-spacing','.1em').attr('fill',lane.col)
@@ -506,12 +624,12 @@ function buildMap(entries){
   // Year grid + labels
   for(let yr=MIN_YR+1;yr<=MAX_YR;yr++){
     const y=yearY(yr), maj=yr%5===0;
-    svg.append('line')
+    gC.append('line')
       .attr('x1',PAD_L).attr('y1',y).attr('x2',W).attr('y2',y)
       .attr('stroke',maj?'rgba(255,255,255,.07)':'rgba(255,255,255,.02)')
       .attr('stroke-width',maj?1:.5);
     if(maj||yr%2===0){
-      svg.append('text')
+      gC.append('text')
         .attr('x',PAD_L-8).attr('y',y+4).attr('text-anchor','end')
         .attr('font-family','Archivo,sans-serif')
         .attr('font-size',maj?'11':'9')
@@ -532,7 +650,7 @@ function buildMap(entries){
 
   // Draw connection lines
   const drawn=new Set();
-  const lineG=svg.append('g');
+  const lineG=gC.append('g');
   Object.values(tagIdx).forEach(grp=>{
     if(grp.length<2||grp.length>7) return;
     for(let i=0;i<grp.length;i++){
@@ -555,6 +673,17 @@ function buildMap(entries){
     }
   });
 
+  // Zoom / pan — transforms gC, zoom hint stays fixed on svg
+  const zoomBeh=d3.zoom().scaleExtent([0.3,8]).on('zoom',ev=>gC.attr('transform',ev.transform));
+  svg.call(zoomBeh).on('dblclick.zoom',null);
+  svg.on('dblclick',()=>svg.transition().duration(480).call(zoomBeh.transform,d3.zoomIdentity));
+  svg.append('text')
+    .attr('x',W-10).attr('y',16).attr('text-anchor','end')
+    .attr('font-family','Archivo,sans-serif').attr('font-size','9')
+    .attr('fill','rgba(255,255,255,.2)')
+    .attr('pointer-events','none')
+    .text('scroll · drag · dbl-click reset');
+
   // Tooltip
   const tip=document.getElementById('map-tip');
   function moveTip(ev){
@@ -564,7 +693,7 @@ function buildMap(entries){
   }
 
   // Nodes
-  const nodeG=svg.append('g');
+  const nodeG=gC.append('g');
   entries.forEach(e=>{
     const g=nodeG.append('g')
       .attr('transform',`translate(${e._px},${e._py})`)
