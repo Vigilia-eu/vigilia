@@ -34,6 +34,8 @@
   .layer.vigilia .lname { color: var(--gold); }
   .layer.outlets { background: var(--gold); justify-content: center; text-align: center; }
   .layer.outlets .lname { color: var(--navy); }
+  .layer.map { background: rgba(240,168,32,.13); border: 2px solid var(--gold); justify-content: center; text-align: center; }
+  .layer.map .lname { color: var(--gold); letter-spacing: .06em; }
   .conn { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 9px 0; }
   .conn::before { content: ""; width: 2px; height: 14px; background: rgba(240,168,32,.5); }
   .conn .lab { display: flex; align-items: center; gap: 14px; font-family: var(--cond); font-weight: 700; font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; color: var(--gold); flex-wrap: wrap; justify-content: center; }
@@ -110,6 +112,17 @@
   #radial circle.hub { fill: var(--gold); opacity: .7; }
 
   @keyframes dash { to { stroke-dashoffset: -120; } }
+
+  /* four-level grid */
+  .levels { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 42px; }
+  @media(max-width:680px) { .levels { grid-template-columns: 1fr; } }
+  .level-card { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 14px; padding: 26px 22px; }
+  .level-name { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .07em; font-size: .78rem; color: var(--gold); margin-bottom: 16px; }
+  .level-role { margin-bottom: 2px; }
+  .role-label { font-family: var(--cond); font-weight: 700; font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 5px; }
+  .level-role p { font-size: .93rem; color: #c0d0e8; line-height: 1.5; margin: 0; }
+  .level-div { border-top: 1px solid var(--line); margin: 14px 0; }
+  .ai-role .role-label { color: rgba(240,168,32,.55); }
 </style>
 </head>
 <body>
@@ -207,6 +220,67 @@
   </div>
 </div>
 
+<!-- FOUR LEVELS -->
+<section class="block">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">Every level</span>
+      <h2 class="disp">People and AI, <span class="hl">all the way down.</span></h2>
+      <p>At every level of the network — from global to regional — both people and AI are present. People determine what the story is. AI determines how far it reaches.</p>
+    </div>
+    <div class="levels">
+      <div class="level-card reveal">
+        <div class="level-name">World</div>
+        <div class="level-role">
+          <div class="role-label">People</div>
+          <p>International journalists, global researchers, foreign policy institutes. They track what moves outside Europe — US politics, Russian strategy, Chinese narratives — and bring it in.</p>
+        </div>
+        <div class="level-div"></div>
+        <div class="level-role ai-role">
+          <div class="role-label">AI</div>
+          <p>P6 monitors global source tiers — international feeds, Telegram, Bluesky. Detects narrative patterns moving toward Europe before they arrive.</p>
+        </div>
+      </div>
+      <div class="level-card reveal">
+        <div class="level-name">Europe</div>
+        <div class="level-role">
+          <div class="role-label">People</div>
+          <p>Pan-European journalists, think tanks, political movements. They frame the European argument — what Europe stands for, what it faces, what it must do.</p>
+        </div>
+        <div class="level-div"></div>
+        <div class="level-role ai-role">
+          <div class="role-label">AI</div>
+          <p>P1–P5 produce at scale from human input and distribute to all 27 country nodes. Continental P6 tracks narrative activity across all member states simultaneously.</p>
+        </div>
+      </div>
+      <div class="level-card reveal">
+        <div class="level-name">National</div>
+        <div class="level-role">
+          <div class="role-label">People</div>
+          <p>National journalists, researchers, parties, civil society. They know the political context, the public mood, the local stories the European level cannot see.</p>
+        </div>
+        <div class="level-div"></div>
+        <div class="level-role ai-role">
+          <div class="role-label">AI</div>
+          <p>Re-voices European content into the national register. Runs a national P6 instance on local sources. Scales national output for distribution to regional hubs.</p>
+        </div>
+      </div>
+      <div class="level-card reveal">
+        <div class="level-name">Regional</div>
+        <div class="level-role">
+          <div class="role-label">People</div>
+          <p>Local journalists, writers, grassroots activists. They are the authenticity layer — present in communities, languages, and places that no central operation can replicate.</p>
+        </div>
+        <div class="level-div"></div>
+        <div class="level-role ai-role">
+          <div class="role-label">AI</div>
+          <p>Re-voices for the regional register. Distributes to local outlets. Feeds regional sentiment data upstream — to the national node, and from there to Brussels.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- THE FULL MACHINE -->
 <section class="block alt">
   <div class="wrap">
@@ -236,6 +310,68 @@
       <div class="conn"><div class="lab"><span>↓ fan-out</span></div></div>
       <div class="layer outlets">
         <div><div class="lname">The many voices</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPSTREAM -->
+<section class="block">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">The upstream</span>
+      <h2 class="disp">Every region speaks. <span class="hl">Brussels listens.</span></h2>
+      <p>The network doesn't only broadcast. Every journalist, researcher, and writer working inside Vigilia sends their work back. Country nodes aggregate the national picture. Brussels sees the shape of the continent.</p>
+    </div>
+    <div class="fed reveal">
+      <div class="layer outlets">
+        <div><div class="lname">Local voices — writers · researchers · journalists</div></div>
+      </div>
+      <div class="conn"><div class="lab"><span>↑ everything written</span><span class="mut">ideally inside Vigilia tools — already in the system at the moment of creation</span></div></div>
+      <div class="hubrow">
+        <div class="hubset">
+          <div class="hcard"><div class="hn">Node · NL</div><div class="hd">national aggregate</div></div>
+          <span class="syn">↔</span>
+          <div class="hcard"><div class="hn">Node · DE</div><div class="hd">national aggregate</div></div>
+          <span class="syn">↔</span>
+          <div class="hcard"><div class="hn">Node · FR</div><div class="hd">national aggregate</div></div>
+        </div>
+      </div>
+      <div class="conn"><div class="lab"><span>↑ upstream intelligence</span><span class="mut">sentiment · patterns · what Europe is writing about</span></div></div>
+      <div class="layer vigilia">
+        <div><div class="lname">Brussels · Vigilia central</div></div>
+      </div>
+      <div class="conn"><div class="lab"><span>↑ aggregated · analysed · mapped</span></div></div>
+      <div class="layer map">
+        <div><div class="lname">Live Europa Map</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE EUROPA MAP -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">Intelligence</span>
+      <h2 class="disp">A continent <span class="hl">watching itself.</span></h2>
+      <p>Every piece of content published by every node flows back as structured data. Sentiments shift. Narratives gain or lose ground. The same theme appears in three countries simultaneously. Brussels sees it first.</p>
+    </div>
+    <div class="flows">
+      <div class="flow reveal">
+        <div class="ar">~</div>
+        <h3>Sentiment over time</h3>
+        <p>Which topics are rising in urgency in which regions. How opinion moves between a story breaking and a week later. Where the ground is shifting before anyone names it.</p>
+      </div>
+      <div class="flow reveal">
+        <div class="ar">⊕</div>
+        <h3>Cross-border patterns</h3>
+        <p>The same narrative emerging in Poland, the Netherlands, and Slovakia at the same time. Pattern detected before mainstream. Response prepared before the bridge.</p>
+      </div>
+      <div class="flow reveal">
+        <div class="ar">→</div>
+        <h3>Strategic steering</h3>
+        <p>The map doesn't just report. It tells you where to put the next story, which voice to amplify, where a false narrative is gaining traction while it can still be met.</p>
       </div>
     </div>
   </div>
