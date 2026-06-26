@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sodalitas · Vigilia</title>
+<meta name="description" content="Vigilia cannot be built by two people. It is designed to be built by a continent. This is the invitation." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Ccircle%20cx='16'%20cy='16'%20r='16'%20fill='%230d1933'/%3E%3Ctext%20x='16'%20y='22'%20font-family='Arial'%20font-size='18'%20font-weight='bold'%20fill='%23f0a820'%20text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/vigilia.css" />
+<style>
+  .page-hero { padding: 80px 0 60px; border-bottom: 1px solid var(--line); }
+  .page-hero h1 { font-family: var(--display); text-transform: uppercase; font-size: clamp(2.2rem,5vw,4rem); line-height: .96; color: #e8f0ff; margin: 14px 0 20px; max-width: 20ch; }
+  .page-hero h1 .hl { color: var(--gold); }
+  .page-hero p { font-size: 1.12rem; color: #c0d0e8; max-width: 54ch; line-height: 1.68; }
+
+  /* principle block */
+  .principle { max-width: 720px; }
+  .principle p { font-size: 1.06rem; color: #c0d0e8; line-height: 1.72; margin-bottom: 18px; }
+  .principle p:last-child { margin-bottom: 0; }
+  .principle strong { color: #e8f0ff; }
+
+  /* role grid */
+  .role-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 42px; }
+  @media(max-width:900px) { .role-grid { grid-template-columns: repeat(2,1fr); } }
+  @media(max-width:560px) { .role-grid { grid-template-columns: 1fr; } }
+  .role-card { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 14px; padding: 26px 22px; display: flex; flex-direction: column; }
+  .role-latin { font-family: var(--cond); font-weight: 700; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); opacity: .7; margin-bottom: 8px; }
+  .role-name { font-family: var(--cond); font-weight: 800; font-size: 1.05rem; text-transform: uppercase; letter-spacing: .04em; color: #e8f0ff; margin-bottom: 12px; }
+  .role-desc { font-size: .9rem; color: var(--muted); line-height: 1.55; flex: 1; }
+  .role-divider { border: none; border-top: 1px solid var(--line); margin: 16px 0; }
+  .role-get { font-size: .85rem; color: #c0d0e8; line-height: 1.5; }
+  .role-get span { display: block; font-family: var(--cond); font-weight: 700; font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gold); opacity: .7; margin-bottom: 6px; }
+
+  /* exchange */
+  .exchange { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 42px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  @media(max-width:680px) { .exchange { grid-template-columns: 1fr; } }
+  .exch-col { padding: 32px 30px; }
+  .exch-col.bring { background: rgba(255,255,255,.03); }
+  .exch-col.get { background: rgba(240,168,32,.05); border-left: 3px solid var(--gold); }
+  @media(max-width:680px) { .exch-col.get { border-left: none; border-top: 3px solid var(--gold); } }
+  .exch-label { font-family: var(--cond); font-weight: 800; font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 18px; }
+  .exch-col.get .exch-label { color: var(--gold); }
+  .exch-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 11px; }
+  .exch-list li { font-size: .92rem; color: #c0d0e8; line-height: 1.5; padding-left: 18px; position: relative; }
+  .exch-list li::before { position: absolute; left: 0; color: rgba(240,168,32,.5); }
+  .exch-col.bring .exch-list li::before { content: '·'; }
+  .exch-col.get .exch-list li::before { content: '→'; }
+
+  /* where we are */
+  .now-box { background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 14px; padding: 36px 38px; margin-top: 42px; max-width: 760px; }
+  .now-box .nt { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: .82rem; color: #e8f0ff; margin-bottom: 14px; }
+  .now-box p { font-size: .98rem; color: #c0d0e8; line-height: 1.65; margin: 0 0 14px; }
+  .now-box p:last-child { margin-bottom: 0; }
+  .now-box strong { color: #e8f0ff; }
+
+  /* milestone bar */
+  .milestones { display: flex; flex-direction: column; gap: 3px; margin-top: 24px; }
+  .ms { display: grid; grid-template-columns: 120px 1fr; gap: 0; border-radius: 0; overflow: hidden; }
+  .ms:first-child { border-radius: 10px 10px 0 0; }
+  .ms:last-child { border-radius: 0 0 10px 10px; }
+  .ms-date { padding: 13px 16px; font-family: var(--cond); font-weight: 700; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; background: rgba(255,255,255,.05); color: var(--muted); border: 1px solid var(--line); border-right: none; display: flex; align-items: center; }
+  .ms-text { padding: 13px 18px; font-size: .88rem; color: #c0d0e8; line-height: 1.45; background: rgba(255,255,255,.03); border: 1px solid var(--line); }
+  .ms.now .ms-date { background: rgba(240,168,32,.1); color: var(--gold); border-color: rgba(240,168,32,.25); }
+  .ms.now .ms-text { border-color: rgba(240,168,32,.2); }
+
+  /* CTA */
+  .cta-box { background: rgba(240,168,32,.06); border: 1.5px solid rgba(240,168,32,.3); border-radius: 14px; padding: 40px 42px; margin-top: 42px; max-width: 680px; }
+  .cta-box h3 { font-family: var(--display); text-transform: uppercase; font-size: clamp(1.3rem,2.5vw,1.8rem); color: #e8f0ff; line-height: 1.1; margin-bottom: 16px; }
+  .cta-box h3 .hl { color: var(--gold); }
+  .cta-box p { font-size: .98rem; color: #c0d0e8; line-height: 1.65; margin-bottom: 24px; }
+  .cta-box .cta-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="mark">V</span>
+      <span class="name">VIGILIA</span>
+      <span class="tagline">Europe's night watch</span>
+    </a>
+    <button class="hamburger" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="sidenav" id="sidenav" aria-label="Site navigation">
+  <div class="sidenav-head">
+    <span class="sidenav-brand">VIGILIA</span>
+    <button class="sidenav-close" id="navClose" aria-label="Close menu">✕</button>
+  </div>
+  <a href="index.html" class="sidenav-link">Vigilia</a>
+  <div class="sidenav-section">Capitula</div>
+  <a href="engine.html" class="sidenav-link">Machina</a>
+  <a href="federation.html" class="sidenav-link">Foederatio</a>
+  <a href="explorator.html" class="sidenav-link">Explorator</a>
+  <a href="who.html" class="sidenav-link">De Nobis</a>
+  <div class="sidenav-section">Bibliotheca</div>
+  <a href="periculum.html" class="sidenav-link">Periculum</a>
+  <a href="sodalitas.html" class="sidenav-link active">Sodalitas</a>
+  <a href="annales.html" class="sidenav-link">Annales</a>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow reveal">Sodalitas</span>
+    <h1 class="reveal">Vigilia cannot be built<br>by two people.<br>It is designed to be built<br>by a <span class="hl">continent.</span></h1>
+    <p class="reveal">The architecture is here. The intelligence layer is running. The editorial infrastructure is operational. What is missing is the network — the journalists, researchers, developers, and institutions that make continental scale real. This is the invitation.</p>
+  </div>
+</section>
+
+<!-- THE PRINCIPLE -->
+<section class="block">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">The principle</span>
+      <h2 class="disp">Infrastructure, <span class="hl">not a company.</span></h2>
+    </div>
+    <div class="principle reveal">
+      <p>Vigilia is not being built as a media company with employees, a venture-capital raise, and a product roadmap. That model cannot reach 27 countries in 24 languages at the speed the threat operates. It cannot place a journalist in Warsaw who knows the local political terrain. It cannot run an Explorator instance that reads Hungarian Telegram channels and understands what it is reading. It cannot be in Riga and Lyon and Athens simultaneously.</p>
+      <p>What can do all of that is a federated network of people and institutions who bring their own expertise, their own geography, and their own languages — and share a common infrastructure, a common intelligence layer, and a common commitment to a functioning European democracy.</p>
+      <p><strong>You don't join Vigilia as a user. You join as a builder.</strong> The network determines how far Vigilia reaches. The collective decides what it becomes. The September 2026 milestone is the first moment where that becomes real — two nodes, one shared intelligence layer, one live demo. The founding participants shape everything that follows.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THE ROLES -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">Who is needed</span>
+      <h2 class="disp">Six roles. <span class="hl">One network.</span></h2>
+      <p>Vigilia is looking for people and institutions who fit one of six roles. Each brings something the network cannot function without. Each gets something the network is uniquely positioned to provide.</p>
+    </div>
+    <div class="role-grid">
+
+      <div class="role-card reveal">
+        <div class="role-latin">Investigator</div>
+        <div class="role-name">Researcher &amp; Analyst</div>
+        <div class="role-desc">You study disinformation, hybrid threats, political influence operations, or European political dynamics. You produce intelligence that informs counter-strategy — not just academic output.</div>
+        <hr class="role-divider" />
+        <div class="role-get">
+          <span>What you get</span>
+          Explorator intelligence briefings before the story breaks. Cross-border data that no single research organisation has. A direct line from your findings into the publishing infrastructure.
+        </div>
+      </div>
+
+      <div class="role-card reveal">
+        <div class="role-latin">Scriptor</div>
+        <div class="role-name">Journalist</div>
+        <div class="role-desc">You write about European politics, security, or society. You need better intelligence on where stories come from. You want your work to reach beyond one outlet and one language.</div>
+        <hr class="role-divider" />
+        <div class="role-get">
+          <span>What you get</span>
+          Pre-debunk briefings when a coordinated narrative is seeding — before it becomes the story. Machina's distribution infrastructure across 27 countries. The network itself as a source.
+        </div>
+      </div>
+
+      <div class="role-card reveal">
+        <div class="role-latin">Faber</div>
+        <div class="role-name">Developer</div>
+        <div class="role-desc">You build things. Protocol design, node infrastructure, monitoring tooling, data pipelines, front-end. You want to work on something that matters at continental scale with real operational stakes.</div>
+        <hr class="role-divider" />
+        <div class="role-get">
+          <span>What you get</span>
+          A genuine technical challenge — federated architecture at EU scale is not a solved problem. A founding role in the infrastructure layer. Work that is in production, not a side project.
+        </div>
+      </div>
+
+      <div class="role-card reveal">
+        <div class="role-latin">Curator</div>
+        <div class="role-name">Node Operator</div>
+        <div class="role-desc">You are based in a European country and can run the national node — local sources, local language, local publishing. You understand the political terrain in your country and can make editorial decisions in it.</div>
+        <hr class="role-divider" />
+        <div class="role-get">
+          <span>What you get</span>
+          The patria-package: a deployable node instance with Explorator, Machina, and local publishing configured. Full editorial autonomy over your node's output. Direct upstream connection to Brussels.
+        </div>
+      </div>
+
+      <div class="role-card reveal">
+        <div class="role-latin">Consiliarius</div>
+        <div class="role-name">Think Tank &amp; Institution</div>
+        <div class="role-desc">You research European policy, security, or democratic resilience. You have audiences that Vigilia's intelligence reaches. You want operational relevance, not just publication.</div>
+        <hr class="role-divider" />
+        <div class="role-get">
+          <span>What you get</span>
+          Intelligence that connects all four threat layers in a single picture — something no existing institution currently provides. Distribution for your own research through the Vigilia network.
+        </div>
+      </div>
+
+      <div class="role-card reveal">
+        <div class="role-latin">Civis</div>
+        <div class="role-name">Local Contributor</div>
+        <div class="role-desc">You are based somewhere in Europe and you see things. Local political dynamics, regional narratives, patterns in your city or municipality that don't appear in national media yet.</div>
+        <hr class="role-divider" />
+        <div class="role-get">
+          <span>What you get</span>
+          Your local knowledge feeds the continental picture. What you observe in your region becomes upstream intelligence for the Brussels node — the kind of signal that doesn't appear in RSS feeds.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- THE EXCHANGE -->
+<section class="block">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">The exchange</span>
+      <h2 class="disp">What the network <span class="hl">requires and returns.</span></h2>
+    </div>
+    <div class="exchange reveal">
+      <div class="exch-col bring">
+        <div class="exch-label">What you bring</div>
+        <ul class="exch-list">
+          <li>Geographic presence in a European country</li>
+          <li>Language capability — reading and writing in your national language</li>
+          <li>Domain expertise: journalism, research, technology, policy, or local knowledge</li>
+          <li>Commitment to European democratic resilience as a shared project</li>
+          <li>Willingness to operate within the editorial and ethical framework</li>
+          <li>Time — this is not passive membership</li>
+        </ul>
+      </div>
+      <div class="exch-col get">
+        <div class="exch-label">What the network provides</div>
+        <ul class="exch-list">
+          <li>Explorator intelligence: early warning before the narrative breaks</li>
+          <li>Machina infrastructure: publishing at scale without building it yourself</li>
+          <li>27-country distribution through the federated node network</li>
+          <li>Cross-border data: the pattern your country node sees plus what every other node sees</li>
+          <li>A founding role in infrastructure that will operate at continental scale</li>
+          <li>Peers: researchers, journalists, and analysts across Europe working the same problem</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHERE WE ARE NOW -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">Honest state</span>
+      <h2 class="disp">Where Vigilia <span class="hl">is right now.</span></h2>
+    </div>
+    <div class="now-box reveal">
+      <div class="nt">What is built and running</div>
+      <p>Explorator (Sentinel) is operational in Phase 1 scope: 877 items monitored, 32 active clusters, real-time alerting, daily digest. Machina pipelines are running with live output. The website exists. The architecture is documented. The intelligence layer is producing.</p>
+      <p>What is not yet built: the federation at scale. Right now there is one central node. The September 2026 milestone is a two-node live demo — Belgium and the Netherlands, two Explorator instances sharing upstream intelligence, one shared publishing infrastructure. <strong>That is the proof of concept that makes the rest of the network credible.</strong></p>
+      <div class="milestones">
+        <div class="ms done">
+          <div class="ms-date">Phase 0</div>
+          <div class="ms-text">Central node live. Explorator operational. Machina running. Architecture documented.</div>
+        </div>
+        <div class="ms now">
+          <div class="ms-date">Sept 2026</div>
+          <div class="ms-text"><strong>Two-node demo.</strong> BE + NL nodes live. Shared intelligence layer. First real federation test. This is the pitch milestone.</div>
+        </div>
+        <div class="ms">
+          <div class="ms-date">2027</div>
+          <div class="ms-text">Protocol v1 defined. First partner node beyond founding team. Germany or France as priority.</div>
+        </div>
+        <div class="ms">
+          <div class="ms-date">2028–30</div>
+          <div class="ms-text">Continental scale. 10+ active nodes. Explorator running in 10+ languages. The network the threat requires us to be.</div>
+        </div>
+      </div>
+    </div>
+    <div class="pull reveal" style="margin-top:32px;max-width:720px;font-size:1.05rem;color:#c0d0e8;line-height:1.7;">
+      Vigilia is not funded. It is not a company. It is a working prototype and a blueprint for something that needs to be built collectively. The people who join now are not joining a finished product. They are deciding what it becomes.
+    </div>
+  </div>
+</section>
+
+<!-- CALL TO ACTION -->
+<section class="block">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <h3>If this is your fight too,<br><span class="hl">let's build it together.</span></h3>
+      <p>Tell us who you are, where you are in Europe, and what role you see yourself playing. There is no form — just a conversation. The network is built one person at a time, starting with the people who understand why it needs to exist.</p>
+      <div class="cta-btns">
+        <a href="who.html" class="btn primary">Contact via De Nobis</a>
+        <a href="periculum.html" class="btn ghost">Read the threat architecture</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-brand">
+      <div class="name">VIGILIA</div>
+      <div class="sub">Europe's night watch</div>
+    </div>
+    <div class="foot-links">
+      <a href="index.html">Vigilia</a>
+      <a href="engine.html">Machina</a>
+      <a href="federation.html">Foederatio</a>
+      <a href="explorator.html">Explorator</a>
+      <a href="who.html">De Nobis</a>
+      <a href="periculum.html">Periculum</a>
+      <a href="sodalitas.html">Sodalitas</a>
+      <a href="annales.html">Annales</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const toggle=document.getElementById('navToggle');
+  const nav=document.getElementById('sidenav');
+  const overlay=document.getElementById('navOverlay');
+  const close=document.getElementById('navClose');
+  function openNav(){nav.classList.add('open');overlay.classList.add('open');document.body.style.overflow='hidden';}
+  function closeNav(){nav.classList.remove('open');overlay.classList.remove('open');document.body.style.overflow='';}
+  toggle.addEventListener('click',openNav);
+  close.addEventListener('click',closeNav);
+  overlay.addEventListener('click',closeNav);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNav();});
+})();
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*60+'ms';io.observe(el);});
+</script>
+</body>
+</html>
