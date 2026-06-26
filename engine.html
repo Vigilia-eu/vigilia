@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The engine · Vigilia</title>
+<meta name="description" content="An autonomous AI editor that researches, verifies, writes, illustrates and publishes. Already running. Two pipelines, auditable at every step." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Ccircle%20cx='16'%20cy='16'%20r='16'%20fill='%230d1933'/%3E%3Ctext%20x='16'%20y='22'%20font-family='Arial'%20font-size='18'%20font-weight='bold'%20fill='%23f0a820'%20text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/vigilia.css" />
+<style>
+  :root { --blue: #2b5fb3; }
+
+  .page-hero { padding: 80px 0 60px; border-bottom: 1px solid var(--line); }
+  .page-hero h1 { font-family: var(--display); text-transform: uppercase; font-size: clamp(2.4rem,5.5vw,4.4rem); line-height: .96; color: #e8f0ff; margin: 14px 0 20px; }
+  .page-hero h1 .hl { color: var(--gold); }
+  .page-hero p { font-size: 1.1rem; color: #c0d0e8; max-width: 56ch; line-height: 1.65; }
+
+  /* stat ribbon */
+  .ribbon { background: var(--navy-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .ribbon .wrap { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; padding: 32px 28px; }
+  @media(max-width:760px) { .ribbon .wrap { grid-template-columns: repeat(2,1fr); gap: 24px 8px; } }
+  .stat .n { font-family: var(--display); font-size: clamp(2rem,4.4vw,3rem); color: var(--gold); line-height: 1; }
+  .stat .l { font-family: var(--cond); font-weight: 600; font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+
+  /* gallery */
+  .grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-top: 42px; }
+  @media(max-width:880px) { .grid { grid-template-columns: repeat(2,1fr); } }
+  @media(max-width:560px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: transform .18s ease, box-shadow .18s ease; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 20px 42px -24px rgba(0,0,0,.5); }
+  .card .ph { aspect-ratio: 16/9; background: var(--navy-2) center/cover no-repeat; position: relative; }
+  .card .tag { position: absolute; left: 12px; top: 12px; background: var(--navy); color: var(--gold); font-family: var(--cond); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; padding: 5px 10px; border-radius: 4px; border: 1px solid rgba(240,168,32,.4); }
+  .card .ph::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 30%,rgba(240,168,32,.1),transparent 55%); }
+  .card .body { padding: 18px 18px 20px; flex: 1; display: flex; flex-direction: column; }
+  .card h3 { font-family: var(--cond); font-weight: 800; font-size: 1.16rem; line-height: 1.2; margin-bottom: 8px; color: #e8f0ff; }
+  .card p { font-size: .9rem; color: var(--muted); line-height: 1.5; flex: 1; }
+  .card .readlink { display: inline-block; margin-top: 14px; font-family: var(--cond); font-weight: 700; font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; color: var(--gold-2); }
+  .card:hover .readlink { color: var(--gold); }
+
+  /* mode switch */
+  .modeswitch { display: inline-flex; align-items: center; gap: 6px; margin-top: 30px; background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 100px; padding: 6px; }
+  .modeswitch .ms-label { font-family: var(--cond); font-weight: 700; font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding: 0 8px 0 12px; }
+  .ms-btn { border: none; background: none; cursor: pointer; padding: 9px 18px; border-radius: 100px; font-family: var(--cond); font-weight: 700; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); transition: all .15s ease; }
+  .ms-btn.active { background: var(--navy); color: #fff; }
+  .ms-btn[data-mode="youth"].active { background: var(--blue); color: #fff; }
+  .grid.youth-mode .card .tag { background: var(--blue); color: #fff; border-color: rgba(255,255,255,.3); }
+  .grid.youth-mode .card .readlink { color: var(--blue); }
+
+  /* voice swap */
+  .swap { display: grid; grid-template-columns: 1fr 1fr; margin-top: 42px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  @media(max-width:760px) { .swap { grid-template-columns: 1fr; } }
+  .panel { padding: 34px 30px; }
+  .panel.p1 { background: rgba(255,255,255,.06); }
+  .panel.p2 { background: rgba(255,255,255,.03); }
+  .panel .badge { display: inline-block; font-family: var(--cond); font-weight: 700; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; padding: 5px 11px; border-radius: 4px; margin-bottom: 16px; }
+  .panel.p1 .badge { background: var(--gold); color: var(--navy); }
+  .panel.p2 .badge { background: rgba(255,255,255,.1); color: #e8f0ff; }
+  .panel h4 { font-family: var(--cond); font-weight: 800; font-size: 1.3rem; line-height: 1.15; margin-bottom: 14px; color: #e8f0ff; }
+  .panel .ex { font-size: .96rem; line-height: 1.62; color: #c0d0e8; }
+  .swap-note { text-align: center; margin-top: 18px; font-family: var(--cond); font-weight: 600; font-size: .95rem; color: var(--muted); }
+
+  /* pipelines */
+  .pipes { margin-top: 38px; display: grid; gap: 18px; }
+  .prow { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
+  .prow.p1row { border-left: 4px solid var(--gold); }
+  .prow.p2row { border-left: 4px solid var(--blue); }
+  .prow .ptitle { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .03em; font-size: .95rem; color: #e8f0ff; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .prow .ptitle .pbadge { font-size: .62rem; letter-spacing: .08em; padding: 4px 9px; border-radius: 4px; color: #fff; }
+  .prow.p1row .pbadge { background: var(--gold-2); }
+  .prow.p2row .pbadge { background: var(--blue); }
+  .prow .pdesc { font-size: .88rem; color: var(--muted); margin-bottom: 14px; }
+  .prow .pflow { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+  .step { display: flex; align-items: center; gap: 9px; background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 6px; padding: 11px 17px; font-family: var(--cond); font-weight: 700; font-size: .82rem; letter-spacing: .03em; text-transform: uppercase; color: #e8f0ff; }
+  .step .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+  .step.key { background: var(--gold); color: var(--navy); }
+  .step.key .dot { background: var(--navy); }
+  .arrow { color: rgba(255,255,255,.3); font-weight: 700; }
+
+  /* tech grid */
+  .techgrid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; margin-top: 42px; }
+  @media(max-width:760px) { .techgrid { grid-template-columns: 1fr; } }
+  .tech { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 24px; border-top: 3px solid var(--gold); }
+  .tech h4 { font-family: var(--cond); font-weight: 800; font-size: 1.02rem; margin-bottom: 8px; color: #e8f0ff; text-transform: uppercase; letter-spacing: .02em; }
+  .tech p { font-size: .92rem; color: var(--muted); }
+
+  /* roles */
+  .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media(max-width:760px) { .roles { grid-template-columns: 1fr; } }
+  .rolecol { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 12px; padding: 28px 26px; }
+  .rolecol.vig { background: rgba(240,168,32,.06); border-color: rgba(240,168,32,.2); }
+  .rolecol h3 { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .03em; font-size: 1.02rem; margin-bottom: 16px; color: #e8f0ff; }
+  .rolecol.vig h3 { color: var(--gold); }
+  .rolecol ul { list-style: none; display: grid; gap: 11px; }
+  .rolecol li { position: relative; padding-left: 22px; font-size: .98rem; line-height: 1.5; color: #c0d0e8; }
+  .rolecol li::before { content: ""; position: absolute; left: 0; top: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+  .rolesnote { margin-top: 26px; font-family: var(--cond); font-weight: 700; font-size: 1.08rem; color: #e8f0ff; }
+
+  /* stats band */
+  .statband { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 14px; padding: 30px 28px; }
+  @media(max-width:760px) { .statband { grid-template-columns: repeat(2,1fr); gap: 24px 14px; } }
+  .statband .n { font-family: var(--display); font-size: clamp(1.7rem,3.6vw,2.5rem); color: var(--gold); line-height: 1; }
+  .statband .l { font-family: var(--cond); font-weight: 600; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-top: 8px; line-height: 1.35; }
+
+  /* record */
+  .record-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 34px; align-items: start; }
+  @media(max-width:760px) { .record-grid { grid-template-columns: 1fr; } }
+  .rec-copy h3 { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .02em; font-size: 1.1rem; color: #e8f0ff; margin-bottom: 12px; }
+  .rec-copy p { font-size: 1rem; color: #c0d0e8; line-height: 1.6; }
+  .rec-copy p + p { margin-top: 12px; }
+  .rec-copy .note { color: var(--muted); font-size: .95rem; }
+  .rec-log { background: rgba(255,255,255,.05); border: 1px solid var(--line); border-radius: 12px; padding: 22px; font-family: var(--cond); }
+  .logline { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: .82rem; letter-spacing: .05em; text-transform: uppercase; color: #e8f0ff; margin: 10px 0 6px; }
+  .logline:first-child { margin-top: 0; }
+  .logrow { font-size: .88rem; color: #c0d0e8; padding-left: 18px; line-height: 1.5; }
+  .logrow b { color: var(--gold); }
+  .logrow.note { color: var(--muted); }
+  .dotr { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+  .dotr.block { background: var(--gold); }
+  .dotr.fix { background: #7ec98f; }
+
+  /* scale rows */
+  .scale-rows { margin-top: 40px; border-top: 1px solid var(--line); }
+  .srow { display: grid; grid-template-columns: 210px 1fr; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  @media(max-width:640px) { .srow { grid-template-columns: 1fr; gap: 5px; } }
+  .srow .k { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .03em; font-size: 1.02rem; color: #e8f0ff; }
+  .srow .v { color: #c0d0e8; font-size: .98rem; }
+
+  /* full reader */
+  .sm-toggle { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 26px; background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 100px; padding: 6px; }
+  .sm-toggle .ms-label { font-family: var(--cond); font-weight: 700; font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding: 0 8px 0 12px; }
+  .sm-btn { border: none; background: none; cursor: pointer; padding: 9px 18px; border-radius: 100px; font-family: var(--cond); font-weight: 700; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); transition: all .15s ease; }
+  .sm-btn.active { background: var(--navy); color: #fff; }
+  .sm-btn[data-t="plain"].active { background: var(--blue); color: #fff; }
+  .reader { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; max-width: 840px; box-shadow: 0 22px 55px -32px rgba(0,0,0,.4); }
+  .reader .rimg img { width: 100%; display: block; max-height: 360px; object-fit: cover; }
+  .reader .rtext { padding: 32px 40px 42px; }
+  @media(max-width:600px) { .reader .rtext { padding: 26px 24px 32px; } }
+  .reader .rtitle { font-family: var(--display); text-transform: uppercase; font-size: clamp(1.6rem,3.2vw,2.3rem); line-height: 1.0; color: #e8f0ff; margin-bottom: 14px; }
+  .reader .rpane.plain .rtitle { font-family: var(--cond); font-weight: 800; text-transform: none; letter-spacing: -.01em; }
+  .reader .rstand { font-size: 1.16rem; line-height: 1.5; color: var(--muted); font-style: italic; margin-bottom: 22px; max-width: 54ch; }
+  .reader .rpane.plain .rstand { font-style: normal; }
+  .reader .rbody p { font-size: 1.04rem; line-height: 1.75; color: #c0d0e8; max-width: 66ch; }
+  .reader .rbody p + p { margin-top: 18px; }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="mark">V</span>
+      <span class="name">VIGILIA</span>
+      <span class="tagline">Europe's night watch</span>
+    </a>
+    <button class="hamburger" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="sidenav" id="sidenav" aria-label="Site navigation">
+  <div class="sidenav-head">
+    <span class="sidenav-brand">VIGILIA</span>
+    <button class="sidenav-close" id="navClose" aria-label="Close menu">✕</button>
+  </div>
+  <a href="index.html" class="sidenav-link">Home</a>
+  <div class="sidenav-section">Chapters</div>
+  <a href="engine.html" class="sidenav-link active">The engine</a>
+  <a href="federation.html" class="sidenav-link">The federation</a>
+  <a href="who.html" class="sidenav-link">Who we are</a>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow reveal">Chapter 01</span>
+    <h1 class="reveal">The editorial <span class="hl">engine.</span></h1>
+    <p class="reveal">Runs on its own, or works with you. Vigilia is an editorial application with two gears. Left alone, it runs full pipelines end to end: research, draft, fact-check, artwork, publish. Sit down next to it and it's a companion — it helps you dig up sources and co-writes with you, right inside the app.</p>
+  </div>
+</section>
+
+<div class="ribbon">
+  <div class="wrap">
+    <div class="stat reveal"><div class="n">~6 wks</div><div class="l">Running live, two pipelines</div></div>
+    <div class="stat reveal"><div class="n">145</div><div class="l">Articles published</div></div>
+    <div class="stat reveal"><div class="n">3,000+</div><div class="l">Steps, each with a readable record</div></div>
+    <div class="stat reveal"><div class="n">0.85</div><div class="l">Average quality score per step</div></div>
+    <div class="stat reveal"><div class="n">~24/wk</div><div class="l">Cadence, hands-off</div></div>
+  </div>
+</div>
+
+<section class="block" id="proof">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">One story, many outcomes</span>
+      <h2 class="disp">Six examples, <span class="hl">different voices.</span></h2>
+      <p>The same topics, told from different angles. The engine was given a worldview and its twelve guiding themes, then let write each one in more than one voice.</p>
+    </div>
+    <div class="modeswitch reveal">
+      <span class="ms-label">Pipeline</span>
+      <button class="ms-btn active" data-mode="policy" type="button">Policy desk</button>
+      <button class="ms-btn" data-mode="youth" type="button">Plain edition</button>
+    </div>
+    <div class="grid" id="gallery">
+      <a class="card reveal" href="articles/one-hand-on-the-brake.html"
+         data-p-href="articles/one-hand-on-the-brake.html" data-y-href="articles/one-hand-on-the-brake-youth.html"
+         data-p-img="images/p1/one-hand-on-the-brake.jpeg" data-y-img="images/P2/one-hand-on-the-brake-youth.png"
+         data-p-title="One Hand on the Brake" data-y-title="How one country can freeze the whole of Europe"
+         data-p-sum="A single national veto can freeze the whole Union. Federation is not a dream; it is the end of paralysis."
+         data-y-sum="One stubborn government can stop the other twenty-six. Here's why it quietly decides your future.">
+        <div class="ph" style="background-image:url('images/p1/one-hand-on-the-brake.jpeg')"><span class="tag">Policy desk</span></div>
+        <div class="body"><h3>One Hand on the Brake</h3><p>A single national veto can freeze the whole Union.</p><span class="readlink">Read →</span></div>
+      </a>
+      <a class="card reveal" href="articles/build-power-bank.html"
+         data-p-href="articles/build-power-bank.html" data-y-href="articles/build-power-bank-youth.html"
+         data-p-img="images/p1/build-power-bank.jpeg" data-y-img="images/P2/build-power-bank-youth.png"
+         data-p-title="Build, Power, Bank" data-y-title="Why Europe can't make its own phone chips"
+         data-p-sum="A Europe that can't make its own chips, power, or payments is a Europe that takes orders."
+         data-y-sum="The most advanced tech you use isn't built here. That's not a tech problem; it's a power problem.">
+        <div class="ph" style="background-image:url('images/p1/build-power-bank.jpeg')"><span class="tag">Policy desk</span></div>
+        <div class="body"><h3>Build, Power, Bank</h3><p>A Europe that can't make its own chips, power, or payments is a Europe that takes orders.</p><span class="readlink">Read →</span></div>
+      </a>
+      <a class="card reveal" href="articles/an-army-not-an-alliance.html"
+         data-p-href="articles/an-army-not-an-alliance.html" data-y-href="articles/an-army-not-an-alliance-youth.html"
+         data-p-img="images/p1/an-army-not-an-alliance.png" data-y-img="images/P2/an-army-not-an-alliance-youth.png"
+         data-p-title="An Army, Not an Alliance" data-y-title="Why Europe still waits for America to defend it"
+         data-p-sum="Coordination is not deterrence. Europe is safe when its defence belongs to no one but Europe."
+         data-y-sum="When war came back in 2022, Europe found out its safety wasn't really in its own hands.">
+        <div class="ph" style="background-image:url('images/p1/an-army-not-an-alliance.png')"><span class="tag">Policy desk</span></div>
+        <div class="body"><h3>An Army, Not an Alliance</h3><p>Coordination is not deterrence. Europe is safe when its defence belongs to no one but Europe.</p><span class="readlink">Read →</span></div>
+      </a>
+      <a class="card reveal" href="articles/a-border-is-a-promise.html"
+         data-p-href="articles/a-border-is-a-promise.html" data-y-href="articles/a-border-is-a-promise-youth.html"
+         data-p-img="images/p1/a-border-is-a-promise.png" data-y-img="images/P2/a-border-is-a-promise-youth.png"
+         data-p-title="A Border Is a Promise" data-y-title="Why open borders need a strong front door"
+         data-p-sum="Free movement inside Europe depends on real control at its edge."
+         data-y-sum="Travelling Europe without stopping is amazing. It only works if the outer edge is actually controlled.">
+        <div class="ph" style="background-image:url('images/p1/a-border-is-a-promise.png')"><span class="tag">Policy desk</span></div>
+        <div class="body"><h3>A Border Is a Promise</h3><p>Free movement inside Europe depends on real control at its edge.</p><span class="readlink">Read →</span></div>
+      </a>
+      <a class="card reveal" href="articles/the-constitution-europe-never-wrote.html"
+         data-p-href="articles/the-constitution-europe-never-wrote.html" data-y-href="articles/the-constitution-europe-never-wrote-youth.html"
+         data-p-img="images/p1/what-we-inherit-we-owe.jpeg" data-y-img="images/P2/what-we-inherit-we-owe-youth.png"
+         data-p-title="The Constitution Europe Never Wrote" data-y-title="Who actually runs Europe?"
+         data-p-sum="European power is real. European accountability is not. That is a democratic emergency."
+         data-y-sum="The EU has enormous power over your life. Can you name who is responsible for any of it?">
+        <div class="ph" style="background-image:url('images/p1/what-we-inherit-we-owe.jpeg')"><span class="tag">Policy desk</span></div>
+        <div class="body"><h3>The Constitution Europe Never Wrote</h3><p>European power is real. European accountability is not.</p><span class="readlink">Read →</span></div>
+      </a>
+      <a class="card reveal" href="articles/clean-and-strong.html"
+         data-p-href="articles/clean-and-strong.html" data-y-href="articles/clean-and-strong-youth.html"
+         data-p-img="images/p1/clean-and-strong.png" data-y-img="images/P2/clean-and-strong-youth.png"
+         data-p-title="Clean and Strong, Not Poor and Pure" data-y-title="Why nuclear might actually be the green choice"
+         data-p-sum="A green Europe that deindustrialises hasn't saved the planet. It has only exported its emissions and its jobs."
+         data-y-sum="Shutting factories to go green can just move the pollution elsewhere. There's a smarter way.">
+        <div class="ph" style="background-image:url('images/p1/clean-and-strong.png')"><span class="tag">Policy desk</span></div>
+        <div class="body"><h3>Clean and Strong, Not Poor and Pure</h3><p>A green Europe that deindustrialises hasn't saved the planet.</p><span class="readlink">Read →</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="block alt" id="sample">
+  <div class="wrap">
+    <span class="eyebrow reveal" style="display:block;margin-bottom:8px">A full example</span>
+    <p class="reveal" style="max-width:64ch;color:#c0d0e8;font-size:1.06rem;margin-bottom:22px">Not a blurb. Here is one piece in full, in both editions the engine produces from a single argument.</p>
+    <div class="sm-toggle reveal">
+      <span class="ms-label">Read it as</span>
+      <button class="sm-btn active" data-t="policy" type="button">Policy desk</button>
+      <button class="sm-btn" data-t="plain" type="button">Plain edition</button>
+    </div>
+    <article class="reader reveal" id="reader">
+      <div class="rpane" data-pane="policy">
+        <figure class="rimg"><img src="images/p1/one-hand-on-the-brake.jpeg" alt="One Hand on the Brake"></figure>
+        <div class="rtext">
+          <h3 class="rtitle">One Hand on the Brake</h3>
+          <p class="rstand">A single national veto can freeze the whole Union. Federation is the end of paralysis, not the death of the nation.</p>
+          <div class="rbody">
+            <p>Europe does not lack power. It lacks the ability to use it. On the questions that decide a continent's place in the world — foreign policy, defence, enlargement, migration — the Union still moves by unanimity. Every member holds a veto, which means any one capital, for reasons entirely its own, can halt the other twenty-six. We call this consensus. It is closer to paralysis, dressed up as respect for sovereignty.</p>
+            <p>The cost is paid in public, again and again. Sanctions are announced, then watered down to the price of the most reluctant government. A common position on a war at the border arrives weeks after the moment that needed it has passed. Enlargement — the Union's single greatest instrument of influence — stalls because one leader has a grievance to trade.</p>
+            <p>The answer is not a superstate that dissolves its nations into a single grey administration. Europe's strength has always been its plurality, and a serious federation guards it. It is a federation with the discipline to leave to each people what belongs to it, and the strength to decide together only what must be decided together.</p>
+            <p>The status quo is the real surrender, because it leaves Europe a spectator while others write the rules it then has to live by. Pooling the few decisions that must be common is not the loss of sovereignty; it is the only way left to exercise it at the scale the century demands.</p>
+          </div>
+        </div>
+      </div>
+      <div class="rpane plain" data-pane="plain" hidden>
+        <figure class="rimg"><img src="images/P2/one-hand-on-the-brake-youth.png" alt="How one country can freeze the whole of Europe"></figure>
+        <div class="rtext">
+          <h3 class="rtitle">How one country can freeze the whole of Europe</h3>
+          <p class="rstand">One stubborn government can stop the other twenty-six. Here's why that quietly decides your future.</p>
+          <div class="rbody">
+            <p>Imagine twenty-seven friends trying to agree on where to eat, with one rule: everyone has to say yes. One person holds out, and nobody eats. That is roughly how Europe makes some of its most important decisions. Every country gets a veto. So any single government can block all the others, for whatever reason it likes.</p>
+            <p>While everyone waits for the last holdout to come around, the moment passes. Sanctions get watered down. A response to a war on the doorstep arrives weeks too late. And the really big calls end up being made somewhere else entirely — in Washington, in Beijing, in Moscow — by people who don't need twenty-seven signatures to act.</p>
+            <p>The fix isn't some giant super-state. The idea is to leave everything local to the people it belongs to, and only decide together the handful of things that have to be decided together. For those, let a strong majority decide instead of letting one hand pull the emergency brake.</p>
+            <p>Europe doesn't need to become one country. It needs to stop freezing itself every time one government says no.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="block" id="how">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">How it runs</span>
+      <h2 class="disp">Multiple pipelines, <span class="hl">no black box.</span></h2>
+      <p>Every stage writes its output to disk before the next begins. Any run can be paused, audited or resumed. Nothing publishes without clearing a quality threshold.</p>
+    </div>
+    <div class="pipes reveal">
+      <div class="prow p1row">
+        <div class="ptitle"><span class="pbadge">Pipeline 1</span> Policy desk · original analysis</div>
+        <div class="pdesc">Researches a topic from scratch and writes the long-form, sourced piece.</div>
+        <div class="pflow">
+          <div class="step"><span class="dot"></span>Scout</div><span class="arrow">→</span>
+          <div class="step"><span class="dot"></span>Research</div><span class="arrow">→</span>
+          <div class="step"><span class="dot"></span>Curate sources</div><span class="arrow">→</span>
+          <div class="step"><span class="dot"></span>Draft</div><span class="arrow">→</span>
+          <div class="step key"><span class="dot"></span>Verify claims</div><span class="arrow">→</span>
+          <div class="step"><span class="dot"></span>Illustrate</div><span class="arrow">→</span>
+          <div class="step"><span class="dot"></span>Publish</div>
+        </div>
+      </div>
+      <div class="prow p2row">
+        <div class="ptitle"><span class="pbadge">Pipeline 2</span> Plain edition · automatic rewrite</div>
+        <div class="pdesc">Takes a finished Pipeline 1 piece and recasts it for a wider reader.</div>
+        <div class="pflow">
+          <div class="step"><span class="dot"></span>Take finished piece</div><span class="arrow">→</span>
+          <div class="step"><span class="dot"></span>Rewrite the voice</div><span class="arrow">→</span>
+          <div class="step key"><span class="dot"></span>Check it still holds</div><span class="arrow">→</span>
+          <div class="step"><span class="dot"></span>Re-illustrate</div><span class="arrow">→</span>
+          <div class="step"><span class="dot"></span>Publish</div>
+        </div>
+      </div>
+    </div>
+    <div class="techgrid">
+      <div class="tech reveal"><h4>Self-hosted, in a container</h4><p>Runs as a Docker service you can host anywhere. No SaaS lock-in, your credentials stay yours, the whole thing is one portable image.</p></div>
+      <div class="tech reveal"><h4>It checks its own facts</h4><p>A dedicated verify stage tests the draft's claims against gathered sources before anything is allowed to publish. Built not to just agree with itself.</p></div>
+      <div class="tech reveal"><h4>Publishes to the open web</h4><p>Pushes to static sites and cross-posts to social. Bluesky is live; the same hook fits LinkedIn, Mastodon and Instagram.</p></div>
+      <div class="tech reveal"><h4>Scheduled or on demand</h4><p>A cron heartbeat keeps a steady cadence, plus a manual trigger for when something breaks and you want a piece right now.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block alt" id="record">
+  <div class="wrap">
+    <span class="eyebrow reveal" style="display:block;margin-bottom:8px">On the record</span>
+    <p class="reveal" style="max-width:64ch;color:#c0d0e8;font-size:1.06rem;margin-bottom:30px">The same engine has been running live for roughly six weeks across two pipelines. Not a demo reel: a track record you can audit, because every step writes its output to disk.</p>
+    <div class="statband reveal">
+      <div><div class="n">~6 wks</div><div class="l">Running live</div></div>
+      <div><div class="n">145</div><div class="l">Articles published</div></div>
+      <div><div class="n">3,000+</div><div class="l">Auditable steps</div></div>
+      <div><div class="n">0.7</div><div class="l">Quality threshold</div></div>
+      <div><div class="n">~24/wk</div><div class="l">Hands-off cadence</div></div>
+    </div>
+    <div class="record-grid reveal">
+      <div class="rec-copy">
+        <h3>It blocks rather than ships</h3>
+        <p>Every step is scored against a threshold. If a draft can't clear the bar after its retries, the pipeline halts and flags us, rather than publishing something weak. We fix the one step, and it resumes from exactly where it paused.</p>
+        <p class="note">Not a black box. When a step fails its bar, it stops and tells you why — instead of failing silently.</p>
+      </div>
+      <div class="rec-log">
+        <div class="logline"><span class="dotr block"></span>Blocked · step: editor</div>
+        <div class="logrow">score <b>0.50</b> vs <b>0.70</b> threshold · after 3 attempts</div>
+        <div class="logrow">reason: a passage was restated verbatim across sections</div>
+        <div class="logline"><span class="dotr fix"></span>Halted &amp; flagged → fixed → resumed</div>
+        <div class="logrow note">paused at the failing step, continued from there once it cleared the bar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="roles">
+  <div class="wrap">
+    <span class="eyebrow reveal" style="display:block;margin-bottom:8px">How you work with it</span>
+    <p class="reveal" style="max-width:62ch;color:#c0d0e8;font-size:1.06rem;margin-bottom:34px">Vigilia is not a replacement for the people who give a publication its judgement. It is the desk underneath them. The line between the two stays where you put it.</p>
+    <div class="roles reveal">
+      <div class="rolecol">
+        <h3>Your editors</h3>
+        <ul>
+          <li>Set the themes, the angle and the standpoint.</li>
+          <li>Decide what matters, and when.</li>
+          <li>Review, edit and sign off before anything publishes.</li>
+          <li>Keep editorial judgement and the final word.</li>
+        </ul>
+      </div>
+      <div class="rolecol vig">
+        <h3>Vigilia</h3>
+        <ul>
+          <li>Researches each topic in depth.</li>
+          <li>Writes the first draft and checks its claims against the sources.</li>
+          <li>Commissions the artwork.</li>
+          <li>Repurposes a piece across formats and voices: long to short, policy to public.</li>
+          <li>Publishes to each outlet on a set cadence.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="rolesnote reveal">The people keep control of the message. The engine carries the volume.</p>
+  </div>
+</section>
+
+<section class="block alt" id="scale">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">One engine, many outlets</span>
+      <h2 class="disp">The engine doesn't know <span class="hl">who it is.</span></h2>
+      <p>Its identity lives in a few config files. Swap them and you get a different publication — same reliability, new voice, new outlet. A second edition isn't a rebuild; it's a copy with the dials turned.</p>
+    </div>
+    <div class="scale-rows reveal">
+      <div class="srow"><div class="k">Voice &amp; values</div><div class="v">Who it is and how it argues: its standpoint, its tone, its red lines. One text file.</div></div>
+      <div class="srow"><div class="k">Themes</div><div class="v">The topics it covers. A short list of strategic threads. Yours could be anything.</div></div>
+      <div class="srow"><div class="k">Outlet</div><div class="v">Where it publishes: the site, the branding, the domain.</div></div>
+      <div class="srow"><div class="k">Channels</div><div class="v">Which social accounts it posts to, and in what register.</div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-brand">
+      <div class="name">VIGILIA</div>
+      <div class="sub">Europe's night watch</div>
+    </div>
+    <div class="foot-links">
+      <a href="index.html">Home</a>
+      <a href="engine.html">The engine</a>
+      <a href="federation.html">The federation</a>
+      <a href="who.html">Who we are</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const toggle=document.getElementById('navToggle');
+  const nav=document.getElementById('sidenav');
+  const overlay=document.getElementById('navOverlay');
+  const close=document.getElementById('navClose');
+  function openNav(){nav.classList.add('open');overlay.classList.add('open');document.body.style.overflow='hidden';}
+  function closeNav(){nav.classList.remove('open');overlay.classList.remove('open');document.body.style.overflow='';}
+  toggle.addEventListener('click',openNav);
+  close.addEventListener('click',closeNav);
+  overlay.addEventListener('click',closeNav);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNav();});
+})();
+
+// gallery toggle
+const gallery=document.getElementById('gallery');
+document.querySelectorAll('.ms-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const mode=btn.dataset.mode, k=mode==='youth'?'y':'p';
+    document.querySelectorAll('.ms-btn').forEach(b=>b.classList.toggle('active',b===btn));
+    gallery.classList.toggle('youth-mode',mode==='youth');
+    gallery.querySelectorAll('.card').forEach(card=>{
+      card.setAttribute('href',card.dataset[k+'Href']);
+      card.querySelector('h3').textContent=card.dataset[k+'Title'];
+      card.querySelector('.body p').textContent=card.dataset[k+'Sum'];
+      card.querySelector('.ph').style.backgroundImage="url('"+card.dataset[k+'Img']+"')";
+      card.querySelector('.tag').textContent=mode==='youth'?'Plain edition':'Policy desk';
+    });
+  });
+});
+
+// reader toggle
+document.querySelectorAll('.sm-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=btn.dataset.t;
+    document.querySelectorAll('.sm-btn').forEach(b=>b.classList.toggle('active',b===btn));
+    document.querySelectorAll('#reader .rpane').forEach(p=>{ p.hidden=p.dataset.pane!==t; });
+  });
+});
+
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*60+'ms';io.observe(el);});
+</script>
+</body>
+</html>
