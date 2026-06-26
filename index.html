@@ -4,9 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Vigilia · Europe's night watch</title>
-<meta name="description" content="A federated counter-disinformation system for Europe. Vigilia detects, responds, spreads, and documents — at continental scale." />
+<meta name="description" content="Democratic resilience infrastructure for Europe. Vigilia detects coordinated attacks, documents the full hybrid threat, and responds at continental scale — before the damage is done." />
 <meta property="og:title" content="Vigilia · Europe's night watch" />
-<meta property="og:description" content="A federated counter-disinformation system for Europe. Vigilia detects, responds, spreads, and documents — at continental scale." />
+<meta property="og:description" content="Democratic resilience infrastructure for Europe. Vigilia detects coordinated attacks, documents the full hybrid threat, and responds at continental scale." />
 <meta property="og:image" content="images/hero-2.jpeg" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Vigilia · Europe's night watch" />
@@ -69,6 +69,17 @@
   .sys-card.c3 { border-top: 3px solid rgba(240,168,32,.8); }
   .sys-card.c4 { border-top: 3px solid rgba(160,110,210,.8); }
 
+  /* four threat layers */
+  .layers { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; margin-top: 42px; }
+  @media(max-width:680px) { .layers { grid-template-columns: 1fr; } }
+  .layer-c { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 12px; padding: 28px 24px; position: relative; overflow: hidden; }
+  .layer-c::before { content: attr(data-n); font-family: var(--display); font-size: 6rem; color: rgba(255,255,255,.03); position: absolute; right: 12px; top: -12px; line-height: 1; pointer-events: none; }
+  .layer-label { font-family: var(--cond); font-weight: 800; font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; color: var(--gold); margin-bottom: 10px; }
+  .layer-c h3 { font-family: var(--cond); font-weight: 800; font-size: 1rem; text-transform: uppercase; letter-spacing: .04em; color: #e8f0ff; margin-bottom: 8px; }
+  .layer-c p { font-size: .9rem; color: var(--muted); line-height: 1.55; margin: 0; }
+  .layer-link { display: block; margin-top: 32px; font-family: var(--cond); font-weight: 700; font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-2); border-bottom: 1px solid rgba(240,168,32,.3); width: fit-content; transition: color .12s; }
+  .layer-link:hover { color: var(--gold); }
+
   /* quote */
   .big-quote { background: var(--navy-2); border-left: 4px solid var(--gold); padding: 40px 42px; border-radius: 0 14px 14px 0; max-width: 72ch; }
   .big-quote p { font-family: var(--display); text-transform: uppercase; font-size: clamp(1.4rem,2.8vw,2rem); line-height: 1.1; color: #e8f0ff; }
@@ -112,25 +123,58 @@
   <div class="hero-bg"></div>
   <div class="wrap">
     <div class="hero-kicker">Europe's night watch</div>
-    <h1 class="disp">While Europe argues,<br><span class="hl">narratives move.</span></h1>
+    <h1 class="disp">Europe isn't losing<br>arguments. It's being made<br><span class="hl">ungovernable.</span></h1>
     <p class="intro">
-      Coordinated influence operations have been running across Europe for fifteen years — seeding distrust at the fringe and watching it climb to the mainstream. <b>Vigilia is the counter-system:</b> detect, respond, spread, and document at continental scale.
+      The assault on European democracy is not a propaganda campaign. It is a four-layer hybrid system with one objective: <b>permanent institutional paralysis.</b> Vigilia is the counter-infrastructure — detecting the attack, documenting its architecture, and responding at continental scale before the damage compounds.
     </p>
     <div class="hero-cta">
-      <a href="#system" class="btn primary">How it works</a>
-      <a href="annales.html" class="btn ghost">Open the research library</a>
+      <a href="#threat" class="btn primary">The architecture of the attack</a>
+      <a href="#system" class="btn ghost">How Vigilia responds</a>
     </div>
   </div>
 </section>
 
-<!-- THE THREAT — compressed -->
-<section class="threat-note">
+<!-- THE THREAT -->
+<section class="threat-note" id="threat">
   <div class="wrap">
     <div class="threat-inner reveal">
-      <p>The attack follows a <b>reproducible four-stage cycle</b>: seed a narrative at the fringe, manufacture consensus with coordinated amplification, bridge it through political influencers and sympathetic outlets, and watch it enter the mainstream as news. By Stage 4, the cost of an effective response is ten times higher than at Stage 1.</p>
-      <p>No single organisation currently operates with the reach, speed, and editorial discipline to intervene at Stage 1–2 across all 27 EU member states simultaneously. That is what Vigilia is being built to do.</p>
-      <a href="explorator.html" class="more">Full breakdown of the threat landscape →</a>
+      <p>The adversary does not need to defeat Europe. It only needs to make Europe <b>unable to act at the speed and scale the threats require.</b> The EU does not need to collapse — it only needs to grind into permanent low-functionality. That is the objective. It is being pursued on four interconnected layers simultaneously.</p>
+      <p>Narratives are the most visible layer. They are not the deepest one. Beneath them: automated industrial infrastructure converting real grievances into political ammunition. Beneath that: political architecture manipulation — structurally converging forces blocking integration from both flanks. And beneath that: physical operations — gig-economy espionage and infrastructure sabotage designed for attrition, not catastrophe, executed through disposable proxies that defeat traditional deterrence entirely.</p>
+      <p>These four layers are not parallel campaigns. They are one self-reinforcing system. <b>Each layer makes the others more effective.</b> Understanding the full architecture is the first requirement for building an effective response.</p>
     </div>
+  </div>
+</section>
+
+<!-- FOUR LAYERS -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">The attack architecture</span>
+      <h2 class="disp">Four layers. <span class="hl">One objective.</span></h2>
+    </div>
+    <div class="layers">
+      <div class="layer-c reveal" data-n="I">
+        <div class="layer-label">Layer I — Doctrine</div>
+        <h3>Reflexive Control</h3>
+        <p>Not persuasion — decision-shaping. The doctrine does not aim to change what Europe believes. It changes how Europe decides: feeding the system specific information that compels choices serving the attacker's interests, while European institutions believe they are acting on their own judgement. The inherited tensions between national sovereignty and EU federalism are not created — they are identified, characterized, and weaponized.</p>
+      </div>
+      <div class="layer-c reveal" data-n="II">
+        <div class="layer-label">Layer II — Political Architecture</div>
+        <h3>Sovereignty from Within</h3>
+        <p>The far-right no longer seeks to leave the EU — it seeks to hollow it out from inside. The far-left blocks integration from the opposite direction. Neither coordinates with the other. Both produce the same structural outcome: deadlock on deeper union. The 2027 French election is the near-term inflection point. The housing crisis, energy prices, and migration anxiety are the operational weapons — real grievances, externally directed.</p>
+      </div>
+      <div class="layer-c reveal" data-n="III">
+        <div class="layer-label">Layer III — Digital Infrastructure</div>
+        <h3>Industrial Throughput</h3>
+        <p>The Pravda Dashboard automates narrative deployment across 27 member states simultaneously. CopyCop launders fabricated local grievances through a four-stage cycle — seed, amplify, bridge, mainstream — until a synthetic story enters political debate as genuine public opinion. The same frame appears localized for Riga, Lyon, Warsaw, and Athens within hours. Telegram dark channels serve as beta-testing environments for narrative frames before deployment. This is not sophisticated editorial work. It is industrial saturation.</p>
+      </div>
+      <div class="layer-c reveal" data-n="IV">
+        <div class="layer-label">Layer IV — Physical Operations</div>
+        <h3>Disposable Agents</h3>
+        <p>The Privet Bot recruits teenagers in gaming communities as "OSINT challenge" participants — photographing military installations for cryptocurrency bounties, unaware of who they work for. Three tiers: naïve youth providing reconnaissance, coerced displaced persons serving as proxies, professional criminals executing physical sabotage. Energy grids, undersea cables, logistics infrastructure. The objective is attrition — exhausting European security services through constant low-level events — while maintaining total plausible deniability. Traditional state deterrence has no mechanism to respond.</p>
+      </div>
+    </div>
+    <a href="periculum.html" class="layer-link reveal">Full threat architecture documentation →</a>
   </div>
 </section>
 
@@ -138,35 +182,35 @@
 <section class="block" id="system">
   <div class="wrap">
     <div class="lead reveal">
-      <span class="eyebrow">The system</span>
-      <h2 class="disp">Four parts. <span class="hl">One loop.</span></h2>
-      <p>Vigilia is not a single product. It is four interconnected layers that reinforce each other: reconnaissance feeds response, response feeds the network, and everything feeds the documented record.</p>
+      <span class="eyebrow">The response</span>
+      <h2 class="disp">Four components. <span class="hl">One loop.</span></h2>
+      <p>Vigilia cannot stop a cable from being cut. What it can do: detect the narrative attack before it reaches the mainstream, document the full architecture of the hybrid threat, and distribute the response across 27 countries before the adversary reaches Stage 3. Reconnaissance feeds response. Response feeds the network. Everything feeds the documented record.</p>
     </div>
     <div class="sys-grid">
 
       <a href="explorator.html" class="sys-card c1 reveal">
         <div class="sys-card-body">
-          <div class="sys-caput">Caput I · Explorator</div>
+          <div class="sys-caput">Caput III · Explorator</div>
           <h3>Reconnaissance</h3>
-          <p>Monitors public source tiers across Europe — from seedbed Telegram channels to mainstream outlets — and detects coordinated narratives at Stage 1–2, before they bridge to the press. Not a fact-checker. A scout. Active before the threat arrives.</p>
+          <p>Monitors public source tiers across Europe — from seedbed Telegram channels to mainstream outlets — and detects coordinated narratives at Stage 1–2, before they bridge to the press. Content-blind pattern scoring: velocity, coordination, escalation. Active before the threat arrives.</p>
         </div>
         <div class="sys-card-foot">The reconnaissance layer</div>
       </a>
 
       <a href="engine.html" class="sys-card c2 reveal">
         <div class="sys-card-body">
-          <div class="sys-caput">Caput II · Machina</div>
+          <div class="sys-caput">Caput I · Machina</div>
           <h3>Editorial engine</h3>
-          <p>Researchers and journalists bring the story. Machina writes, fact-checks, illustrates, and distributes at scale — every day, across every node, without a bottleneck. Real editorial voice. Real sourcing. Already running with live output.</p>
+          <p>Researchers and journalists bring the story. Machina writes, fact-checks, illustrates, and distributes at scale — every day, across every node, without a bottleneck. The counter-narrative is in the field before the adversary's version reaches Stage 3.</p>
         </div>
         <div class="sys-card-foot">The editorial engine</div>
       </a>
 
       <a href="federation.html" class="sys-card c3 reveal">
         <div class="sys-card-body">
-          <div class="sys-caput">Caput III · Foederatio</div>
+          <div class="sys-caput">Caput II · Foederatio</div>
           <h3>Federated network</h3>
-          <p>One engine, 27 country nodes. Content flows down to every hub and is re-voiced for its local audience. Intelligence flows back up — what Europe is reading, what narratives are gaining ground. A continental sensor grid and publishing network in one.</p>
+          <p>One engine, 27 country nodes. Content flows down and is re-voiced for each local audience. Intelligence flows back up — what Europe is reading, what narratives are gaining ground. A continental sensor grid and publishing network in one architecture.</p>
         </div>
         <div class="sys-card-foot">The federated network</div>
       </a>
@@ -174,8 +218,8 @@
       <a href="annales.html" class="sys-card c4 reveal">
         <div class="sys-card-body">
           <div class="sys-caput">Bibliotheca · Annales</div>
-          <h3>Research library</h3>
-          <p>A structured, evidence-tiered record of influence operations across Europe — documented, alleged, and suspected. Indexed by country, party, person, and timeline. Every claim carries its evidence. Every source is cited. The institutional memory of the system.</p>
+          <h3>Hybrid threat archive</h3>
+          <p>A structured, evidence-tiered record of the full hybrid threat against European democracy — doctrine, political operations, digital infrastructure, physical sabotage. Every claim carries its evidence. Every actor is named. The institutional memory that no one else maintains.</p>
         </div>
         <div class="sys-card-foot">Open the Annales</div>
       </a>
