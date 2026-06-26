@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "id": "russia",
+      "file": "research/data/russia.json",
+      "label": "Russia",
+      "description": "Russian state-sponsored influence operations across Europe and the United States",
+      "color": "#c04040",
+      "updated": "2026-06-26"
+    }
+  ]
+}

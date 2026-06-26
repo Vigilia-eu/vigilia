@@ -1,0 +1,487 @@
+{
+  "dossier": "russia",
+  "title": "Russian influence operations",
+  "description": "Documented, alleged and suspected Russian state-sponsored influence operations across Europe and the United States. Evidence tiers: documented = verified by authoritative sources; alleged = reported but not independently confirmed; suspected = credible indicators without definitive proof.",
+  "updated": "2026-06-26",
+  "entries": [
+
+    {
+      "id": "ru-doctrine-1",
+      "date": "1956",
+      "type": "doctrine",
+      "tier": "documented",
+      "countries": ["RU"],
+      "title": "Active measures doctrine established",
+      "summary": "The KGB formalises 'active measures' (aktivnyye meropriyatiya) — a doctrine of political warfare combining disinformation, forgery, front organisations, and agent recruitment to shape foreign opinion without attribution. The framework survives the Soviet collapse and is adapted by the FSB and SVR.",
+      "sources": [
+        {"label": "Christopher Andrew — The Mitrokhin Archive (1999)", "url": ""}
+      ],
+      "tags": ["doctrine", "KGB", "FSB", "SVR", "active-measures"]
+    },
+
+    {
+      "id": "ru-doctrine-2",
+      "date": "2013-02",
+      "type": "doctrine",
+      "tier": "documented",
+      "countries": ["RU"],
+      "title": "Gerasimov article: the value of science is in the foresight",
+      "summary": "Chief of the General Staff Valery Gerasimov publishes an article describing modern warfare as a blend of military and non-military means, with information operations, political destabilisation, and proxy forces preceding and exceeding kinetic action. Widely described in the West as the 'Gerasimov doctrine', though Gerasimov was describing observed NATO practice as much as prescribing Russian strategy.",
+      "sources": [
+        {"label": "Voyenno-Promyshlennyy Kuryer, Feb 2013", "url": ""},
+        {"label": "Mark Galeotti — 'The Gerasimov Doctrine' (Foreign Policy, 2019)", "url": ""}
+      ],
+      "tags": ["doctrine", "Gerasimov", "hybrid-warfare", "information-operations"]
+    },
+
+    {
+      "id": "ru-op-georgia-2008",
+      "date": "2008-08",
+      "type": "operation",
+      "tier": "documented",
+      "countries": ["RU", "GE"],
+      "title": "Georgia: first modern hybrid warfare deployment",
+      "summary": "Russia's military intervention in Georgia is preceded and accompanied by coordinated cyberattacks (DDoS against Georgian government sites), information operations asserting South Ossetian victimhood, and the deployment of irregular forces. The operation establishes the template for later interventions: combine kinetic action with information operations to shape the narrative before international institutions can respond.",
+      "sources": [
+        {"label": "EU Independent International Fact-Finding Mission on the Conflict in Georgia (Tagliavini Report, 2009)", "url": ""},
+        {"label": "US Cyber Consequences Unit — Overview of the Cyber Campaign Against Georgia (2009)", "url": ""}
+      ],
+      "tags": ["hybrid-warfare", "cyberattack", "Georgia", "template"]
+    },
+
+    {
+      "id": "ru-inc-crimea-2014",
+      "date": "2014-03",
+      "type": "incident",
+      "tier": "documented",
+      "countries": ["RU", "UA"],
+      "title": "Annexation of Crimea — hybrid warfare at scale",
+      "summary": "Russian forces in unmarked uniforms ('little green men') seize key installations in Crimea. A referendum conducted under military occupation produces a result (96.8% in favour of joining Russia) that is not recognised by the UN General Assembly. The operation combines rapid military action, information operations denying Russian involvement, and a pre-seeded local political structure. Fourteen UN Security Council members vote to hold the referendum illegal; Russia vetoes.",
+      "sources": [
+        {"label": "UN General Assembly Resolution 68/262 (2014)", "url": ""},
+        {"label": "OSCE / Office for Democratic Institutions and Human Rights — Ukraine", "url": ""}
+      ],
+      "tags": ["Crimea", "Ukraine", "annexation", "little-green-men", "hybrid-warfare"]
+    },
+
+    {
+      "id": "ru-inc-mh17-2014",
+      "date": "2014-07-17",
+      "type": "incident",
+      "tier": "documented",
+      "countries": ["RU", "UA", "NL", "AU", "MY", "BE"],
+      "title": "MH17 — Russian 53rd Brigade Buk missile attributed",
+      "summary": "Malaysia Airlines flight MH17 is shot down over eastern Ukraine, killing all 298 people aboard, 196 of them Dutch nationals. The Joint Investigation Team (Netherlands, Australia, Belgium, Malaysia, Ukraine) concludes that the aircraft was hit by a Buk surface-to-air missile belonging to the Russian 53rd Anti-Aircraft Missile Brigade, fired from a field near Pervomaysk. The Netherlands begins state-level proceedings against Russia at the ICAO and the International Court of Justice.",
+      "sources": [
+        {"label": "JIT Final Report (2016)", "url": "https://www.prosecutionservice.nl/topics/mh17-plane-crash/criminal-investigation-by-the-joint-investigation-team-jit/jit-press-conference-28-september-2016"},
+        {"label": "Bellingcat MH17 investigation", "url": "https://www.bellingcat.com/tag/mh17/"}
+      ],
+      "tags": ["MH17", "Netherlands", "Ukraine", "Buk", "53rd-brigade", "JIT", "attribution"]
+    },
+
+    {
+      "id": "ru-fin-rn-loan-2014",
+      "date": "2014-09",
+      "type": "incident",
+      "tier": "documented",
+      "countries": ["RU", "FR", "CZ"],
+      "title": "RN receives €9.4M loan from First Czech-Russian Bank",
+      "summary": "Rassemblement National (then Front National) receives a €9.4 million loan from First Czech-Russian Bank, a lender with documented ties to the Russian state. The loan enables the party to finance its 2014 European election campaign. Marine Le Pen subsequently opposes EU sanctions on Russia and calls for recognition of Crimea as Russian territory. The French Senate investigates; the bank later goes into liquidation.",
+      "sources": [
+        {"label": "Newsweek — 'How Russia Is Trying to Destabilize Europe' (2017)", "url": ""},
+        {"label": "Al Jazeera — 'Marine Le Pen's financial lifeline from Russia' (2017)", "url": ""},
+        {"label": "French Senate Finance Committee report (2015)", "url": ""}
+      ],
+      "tags": ["RN", "France", "financing", "loan", "First-Czech-Russian-Bank", "Le-Pen"]
+    },
+
+    {
+      "id": "ru-op-ira-2016",
+      "date": "2016",
+      "type": "operation",
+      "tier": "documented",
+      "countries": ["RU", "US"],
+      "title": "Internet Research Agency — US election interference operation",
+      "summary": "The Internet Research Agency (IRA), a St. Petersburg-based organisation funded by Yevgeny Prigozhin, runs a large-scale social media operation targeting the 2016 US presidential election. The operation includes fake American personas, divisive content amplification, and targeted advertising on Facebook, Twitter and YouTube. The Mueller Report (2019) identifies 13 IRA individuals and 3 companies; the US indicts them under FARA and wire fraud statutes. Facebook removes 470 IRA-linked accounts; Twitter removes 3,814.",
+      "sources": [
+        {"label": "Mueller Report — Vol. I (US DOJ, 2019)", "url": "https://www.justice.gov/archives/sco/file/1373816/dl"},
+        {"label": "US Senate Intelligence Committee — Russian Active Measures Campaigns (2019)", "url": ""}
+      ],
+      "tags": ["IRA", "Prigozhin", "USA", "election-interference", "social-media", "2016"]
+    },
+
+    {
+      "id": "ru-op-gru-dnc-2016",
+      "date": "2016-03",
+      "type": "operation",
+      "tier": "documented",
+      "countries": ["RU", "US"],
+      "title": "GRU hacks DNC and Podesta — WikiLeaks release",
+      "summary": "GRU units 26165 (Fancy Bear / APT28) and 74455 (Sandworm) penetrate the Democratic National Committee and the email account of Clinton campaign chairman John Podesta. The stolen material is released via WikiLeaks and Guccifer 2.0 at strategically timed intervals during the 2016 campaign. The Mueller indictment names 12 GRU officers by name and rank.",
+      "sources": [
+        {"label": "Mueller Report — Vol. I, Section IV (2019)", "url": ""},
+        {"label": "Crowdstrike — Bears in the Midst: Intrusion into the Democratic National Committee (2016)", "url": ""}
+      ],
+      "tags": ["GRU", "APT28", "Fancy-Bear", "DNC", "Podesta", "WikiLeaks", "USA", "2016"]
+    },
+
+    {
+      "id": "ru-inc-lisa-2016",
+      "date": "2016-01",
+      "type": "incident",
+      "tier": "documented",
+      "countries": ["RU", "DE"],
+      "title": "Lisa case — fabricated rape amplified as Russian state operation",
+      "summary": "A 13-year-old Russian-German girl (Lisa) goes missing in Berlin for 30 hours. Russian state media and social media accounts immediately amplify a fabricated story that she was gang-raped by migrants. German police quickly establish the story is false — Lisa had stayed voluntarily at a friend's house. Foreign Minister Sergei Lavrov nonetheless publicly repeats the fabricated story, alleging a political cover-up. The German Federal Government formally identifies the episode as a deliberate Russian information operation. Russian-German community protests are organised via social media before the case is resolved.",
+      "sources": [
+        {"label": "German Federal Government statement (2016)", "url": ""},
+        {"label": "EUvsDisinfo — Lisa case analysis", "url": "https://euvsdisinfo.eu/"},
+        {"label": "Deutsche Welle — full timeline", "url": ""}
+      ],
+      "tags": ["Lisa-case", "Germany", "fabrication", "migration-narrative", "Lavrov", "RT", "Sputnik"]
+    },
+
+    {
+      "id": "ru-pact-fpoe-2016",
+      "date": "2016-12-19",
+      "type": "incident",
+      "tier": "documented",
+      "countries": ["RU", "AT"],
+      "title": "FPÖ signs cooperation pact with United Russia",
+      "summary": "Austria's Freedom Party (FPÖ) signs a formal cooperation agreement with United Russia, Vladimir Putin's ruling party. The five-year pact — the first of its kind between a Russian party and a Western European party — covers 'partner events', exchange of political experience, and contacts between youth branches. When FPÖ subsequently enters the Austrian government coalition (2017–2019) and receives the Interior and Foreign ministries, European intelligence services warn about exposure of sensitive information.",
+      "sources": [
+        {"label": "Radio Free Europe / Radio Liberty (Dec 2016)", "url": ""},
+        {"label": "Der Standard — FPÖ-Russland Kooperationsvertrag (2016)", "url": ""},
+        {"label": "Austrian domestic intelligence (BVT) warnings, reported Der Spiegel (2019)", "url": ""}
+      ],
+      "tags": ["FPÖ", "Austria", "United-Russia", "cooperation-pact", "Strache", "intelligence-risk"]
+    },
+
+    {
+      "id": "ru-fin-deutsche-bank-2017",
+      "date": "2017-01",
+      "type": "incident",
+      "tier": "documented",
+      "countries": ["RU", "DE"],
+      "title": "Deutsche Bank fined $630M for Russian mirror-trade scheme",
+      "summary": "Deutsche Bank is fined $630 million by US and UK regulators for a 'mirror trading' scheme that moved approximately $10 billion out of Russia between 2011 and 2015. Russian clients used the bank's Moscow branch to buy Russian blue-chip securities in roubles, then sell identical securities in London for US dollars, evading capital controls and potentially laundering funds. The scheme involves 2,400 matched trades.",
+      "sources": [
+        {"label": "New York Department of Financial Services consent order (Jan 2017)", "url": ""},
+        {"label": "CNN — Deutsche Bank fined $630 million (Jan 2017)", "url": ""},
+        {"label": "Bloomberg — Deutsche Bank Russia Mirror Trades (2017)", "url": ""}
+      ],
+      "tags": ["Deutsche-Bank", "Germany", "money-laundering", "mirror-trades", "capital-flight"]
+    },
+
+    {
+      "id": "ru-inc-salisbury-2018",
+      "date": "2018-03-04",
+      "type": "incident",
+      "tier": "documented",
+      "countries": ["RU", "GB"],
+      "title": "Salisbury poisoning — GRU Novichok attack",
+      "summary": "Former GRU officer Sergei Skripal and his daughter Yulia are poisoned with Novichok nerve agent in Salisbury, England. UK authorities identify the perpetrators as GRU officers Alexander Mishkin and Anatoly Chepiga using the aliases 'Alexander Petrov' and 'Ruslan Boshirov'. Bellingcat independently identifies the operatives, their real names, and a third GRU officer present. A bystander, Dawn Sturgess, later dies after exposure to discarded Novichok. The UK, US, and EU impose coordinated sanctions; 27 countries expel Russian diplomats.",
+      "sources": [
+        {"label": "UK Crown Prosecution Service — Salisbury attribution statement (2018)", "url": ""},
+        {"label": "Bellingcat — GRU Salisbury suspects identified (Sept 2018)", "url": "https://www.bellingcat.com/news/uk-and-europe/2018/09/20/skripal-suspects-confirmed-gru-officers-unit-29155/"}
+      ],
+      "tags": ["Salisbury", "Skripal", "GRU", "Novichok", "Unit-29155", "UK", "Bellingcat"]
+    },
+
+    {
+      "id": "ru-med-kesma-2018",
+      "date": "2018-11-28",
+      "type": "incident",
+      "tier": "documented",
+      "countries": ["HU", "RU"],
+      "title": "KESMA: 476 Hungarian outlets merged under Orbán-aligned foundation",
+      "summary": "476 Hungarian media outlets — covering television, radio, print and online — are merged into KESMA (Central European Press and Media Foundation) and transferred to it free of charge. The foundation is chaired by Orbán allies. Hungary's Competition Authority is stripped of jurisdiction over the deal by emergency decree. The consolidated media landscape ensures near-total alignment between domestic coverage and government positions, including on Ukraine and EU sanctions on Russia. The OSCE media freedom representative expresses concern.",
+      "sources": [
+        {"label": "Reporters Without Borders — Hungary media consolidation (2019)", "url": ""},
+        {"label": "Politico — Orbán's media empire (2019)", "url": ""},
+        {"label": "Hungary Today (Nov 2018)", "url": ""}
+      ],
+      "tags": ["KESMA", "Hungary", "Orban", "Fidesz", "media-consolidation", "press-freedom"]
+    },
+
+    {
+      "id": "ru-fin-lega-metropol-2018",
+      "date": "2019-05",
+      "type": "incident",
+      "tier": "alleged",
+      "countries": ["RU", "IT"],
+      "title": "Lega/Metropol tape: alleged $65M oil deal discussion",
+      "summary": "BuzzFeed News and L'Espresso publish a recording of a meeting at the Metropol Hotel in Moscow (October 2018) between three senior Lega officials — including Gianluca Savoini, a close aide to Matteo Salvini — and three Russians. The conversation discusses a mechanism by which Russian state oil company Rosneft would sell diesel to an Italian company at a discount; the differential would be used to fund Lega. A sum of approximately $65 million is discussed. Neither Salvini nor Lega is recorded in the tape. Italian prosecutors open an investigation; no charges have been filed as of the 2026 update. Savoini denies wrongdoing.",
+      "sources": [
+        {"label": "BuzzFeed News — The Kremlin's Candidate (2019)", "url": ""},
+        {"label": "L'Espresso — Mosca, Lega e il petrolio (2019)", "url": ""}
+      ],
+      "tags": ["Lega", "Italy", "Metropol", "Savoini", "Rosneft", "financing", "Salvini"]
+    },
+
+    {
+      "id": "ru-op-ghostwriter",
+      "date": "2020",
+      "type": "operation",
+      "tier": "documented",
+      "countries": ["RU", "BY", "DE", "LT", "LV", "PL"],
+      "title": "Ghostwriter / UNC1151 — NATO narrative manipulation in Central Europe",
+      "summary": "Mandiant identifies a persistent influence operation (UNC1151) combining website compromises, spoofed email accounts, and fabricated content attributed to NATO officials to discredit the alliance. Forged letters attributed to German, Lithuanian and Polish officials are placed in media outlets. The US, UK, and EU attribute the operation to a Belarusian military cyber unit with likely Russian coordination. Germany names Russia as responsible in a formal diplomatic note.",
+      "sources": [
+        {"label": "Mandiant — UNC1151 Ghostwriter (2021)", "url": ""},
+        {"label": "German Federal Government attribution statement (2021)", "url": ""},
+        {"label": "EU External Action Service — EEAS Special Report on foreign interference (2021)", "url": ""}
+      ],
+      "tags": ["Ghostwriter", "UNC1151", "Belarus", "NATO", "disinformation", "forgery", "Germany"]
+    },
+
+    {
+      "id": "ru-op-doppelganger",
+      "date": "2022",
+      "type": "operation",
+      "tier": "documented",
+      "countries": ["RU", "DE", "FR", "UA", "US"],
+      "title": "Doppelganger / Portal Kombat — 193+ cloned news sites",
+      "summary": "EU DisinfoLab and Meta document a Russian operation cloning the visual identities of legitimate European news outlets — including Der Spiegel, Le Monde, Bild, and Kyiv Post — on lookalike domains. Articles published on these sites are then amplified by bot networks and real accounts. The operation targets audiences in Germany, France, Ukraine, and the US. A second iteration ('Portal Kombat') expands to 193 domains and uses AI-generated content. The EU formally sanctions the operators in July 2024.",
+      "sources": [
+        {"label": "EU DisinfoLab — Doppelganger network analysis (2022)", "url": ""},
+        {"label": "Meta — Adversarial Threat Report Q3 2023", "url": ""},
+        {"label": "EU Council — Doppelganger sanctions decision (Jul 2024)", "url": ""}
+      ],
+      "tags": ["Doppelganger", "Portal-Kombat", "clone-sites", "Germany", "France", "Ukraine", "EU-sanctions"]
+    },
+
+    {
+      "id": "ru-inc-dublin-2023",
+      "date": "2023-11",
+      "type": "incident",
+      "tier": "alleged",
+      "countries": ["RU", "IE"],
+      "title": "Dublin riots — Russian-linked amplification of migration unrest",
+      "summary": "After a stabbing attack injuring three children near a Dublin school, riots erupt targeting migrant-associated premises. Irish police identify a coordinated social media amplification campaign originating in part from accounts linked to Russian influence networks. Specific attribution to Russian state actors is alleged by security researchers; the Irish government describes the amplification as externally coordinated without formal state attribution at the time of this writing.",
+      "sources": [
+        {"label": "Institute for Strategic Dialogue — Dublin riots amplification analysis (2023)", "url": ""},
+        {"label": "Irish Times — Foreign influence in Dublin riots (Dec 2023)", "url": ""}
+      ],
+      "tags": ["Ireland", "Dublin", "riots", "migration-narrative", "amplification", "social-media"]
+    },
+
+    {
+      "id": "ru-op-voice-of-europe",
+      "date": "2024-03",
+      "type": "operation",
+      "tier": "documented",
+      "countries": ["RU", "CZ", "NL", "BE", "DE", "FR", "HU", "PL"],
+      "title": "Voice of Europe — cash payments to MEPs exposed by Czech intelligence",
+      "summary": "Czech security service BIS exposes Voice of Europe, a Prague-based Kremlin-linked outlet, as a conduit for cash payments to European politicians in exchange for pro-Russian statements and parliamentary interventions. Documented payments or offers are confirmed in the Netherlands, Belgium, Germany, France, Hungary, and Poland. AfD politician Petr Bystron is confirmed to have received €20,000 in cash; his parliamentary immunity is lifted. Voice of Europe is sanctioned by the EU and its coordinator, Viktor Medvedchuk, is included on the EU sanctions list.",
+      "sources": [
+        {"label": "Czech BIS annual report (2024)", "url": ""},
+        {"label": "EU Council — Voice of Europe sanctions (May 2024)", "url": ""},
+        {"label": "Der Spiegel — Bystron cash confirmed (2024)", "url": ""}
+      ],
+      "tags": ["Voice-of-Europe", "Medvedchuk", "Bystron", "AfD", "MEP", "EU-Parliament", "Czech-BIS", "cash-payments"]
+    },
+
+    {
+      "id": "ru-inc-romania-2024",
+      "date": "2024-12-06",
+      "type": "incident",
+      "tier": "documented",
+      "countries": ["RU", "RO"],
+      "title": "Romanian presidential election annulled after Russian TikTok operation",
+      "summary": "Romania's Constitutional Court annuls the first round of the presidential election after classified intelligence reveals a coordinated TikTok amplification campaign boosted candidate Calin Georgescu from 5% in polls to 22% in the vote. Over 25,000 TikTok accounts are identified as part of the coordinated network, operating in violation of platform rules. The Romanian Supreme Council of National Defence attributes the operation to Russian-linked actors. Georgescu is subsequently barred from the re-run election.",
+      "sources": [
+        {"label": "Romanian Constitutional Court decision (Dec 2024)", "url": ""},
+        {"label": "Romanian CSAT (Supreme Council of National Defence) declassified report (2024)", "url": ""},
+        {"label": "Reuters — Romania election annulled (Dec 2024)", "url": ""}
+      ],
+      "tags": ["Romania", "Georgescu", "TikTok", "election-interference", "social-media", "annulled"]
+    },
+
+    {
+      "id": "ru-narrative-ukraine-nazi",
+      "date": "2014",
+      "type": "narrative",
+      "tier": "documented",
+      "countries": ["RU", "UA", "DE", "FR"],
+      "title": "Narrative: Ukraine is a Nazi state",
+      "summary": "Core Kremlin narrative propagated since 2014 to delegitimise Ukraine's government and justify military intervention. The kernel of truth: the Azov battalion was founded by members with documented far-right views. The inflation: this is used to characterise the Ukrainian state and armed forces as collectively neo-Nazi, serving as the stated justification for the 2022 invasion ('denazification'). Propagation path: RT and Sputnik → Kremlin spokespersons → far-right European outlets (News Front, InfoRos) → sympathetic politicians (FPÖ, AfD, RN).",
+      "sources": [
+        {"label": "EUvsDisinfo — Ukraine Nazi narrative tracker", "url": "https://euvsdisinfo.eu/"},
+        {"label": "ISD Global — How Russia's 'denazification' narrative spreads in Europe (2022)", "url": ""}
+      ],
+      "tags": ["narrative", "Ukraine", "Nazi", "Azov", "denazification", "RT", "disinformation"]
+    },
+
+    {
+      "id": "ru-narrative-migration",
+      "date": "2015",
+      "type": "narrative",
+      "tier": "documented",
+      "countries": ["RU", "DE", "NL", "FR", "IT", "SE"],
+      "title": "Narrative: migrants as crime and replacement wave",
+      "summary": "A persistent Kremlin-amplified narrative linking migration to crime, cultural destruction, and deliberate 'replacement' of European populations. The kernel of truth: real migration pressures and isolated criminal incidents. The inflation: individual incidents are generalised into systemic patterns and linked to 'Great Replacement' conspiracy theory. Cases are fabricated (Lisa case, 2016) or selectively amplified. The narrative reaches mainstream European parties via Telegram channels and far-right media before being laundered into political discourse by AfD, PVV, Lega, RN, and FvD.",
+      "sources": [
+        {"label": "EUvsDisinfo — Migration narrative database", "url": "https://euvsdisinfo.eu/"},
+        {"label": "ISD Global — The Kremlin's Migration Playbook (2022)", "url": ""}
+      ],
+      "tags": ["narrative", "migration", "great-replacement", "Germany", "Netherlands", "France", "AfD", "PVV", "RN"]
+    },
+
+    {
+      "id": "ru-narrative-biolabs",
+      "date": "2022-02",
+      "type": "narrative",
+      "tier": "documented",
+      "countries": ["RU", "UA", "US"],
+      "title": "Narrative: US bioweapon laboratories in Ukraine",
+      "summary": "Following the 2022 invasion, the Russian Ministry of Defence claims the US operates bioweapons laboratories in Ukraine. The kernel of truth: US-funded biosafety laboratories genuinely exist in Ukraine under the Cooperative Threat Reduction programme, and contracts were released publicly. The inflation: legitimate biosafety research is portrayed as a secret bioweapons programme, used to imply the invasion is defensive. The narrative is amplified by RT, SouthFront, and via Telegram before appearing on mainstream platforms including Twitter/X accounts of Russian diplomatic missions.",
+      "sources": [
+        {"label": "US State Department fact sheet — Biological Threat Reduction in Ukraine (2022)", "url": ""},
+        {"label": "EUvsDisinfo — US biolabs narrative tracker", "url": "https://euvsdisinfo.eu/"},
+        {"label": "NewsGuard — Bioweapons Misinformation Superspreaders (2022)", "url": ""}
+      ],
+      "tags": ["narrative", "biolabs", "Ukraine", "USA", "bioweapons", "disinformation", "RT", "SouthFront"]
+    },
+
+    {
+      "id": "ru-narrative-sanctions",
+      "date": "2022",
+      "type": "narrative",
+      "tier": "documented",
+      "countries": ["RU", "DE", "FR", "IT", "HU"],
+      "title": "Narrative: sanctions hurt Europe more than Russia",
+      "summary": "A Kremlin-amplified narrative arguing that EU sanctions on Russia are self-defeating, driving European energy prices, inflation, and deindustrialisation while leaving Russia unharmed. The kernel of truth: real energy-price pain and economic disruption are documented across EU member states following the 2022 invasion. The inflation: the narrative steers public opinion toward dropping Ukraine support, portraying EU governments as acting against their own populations' interests. Propagated via Doppelganger fake press outlets, RT/Sputnik (before the ban), and amplified by RN, AfD, Lega, and Fidesz.",
+      "sources": [
+        {"label": "EUvsDisinfo — Sanctions-backfire narrative tracker", "url": "https://euvsdisinfo.eu/"},
+        {"label": "European Parliament Research Service — Impact of sanctions on Russia (2023)", "url": ""}
+      ],
+      "tags": ["narrative", "sanctions", "energy", "Germany", "France", "Italy", "Hungary", "RN", "AfD", "Lega", "Fidesz"]
+    },
+
+    {
+      "id": "ru-actor-ira",
+      "date": "2013",
+      "type": "actor",
+      "tier": "documented",
+      "countries": ["RU"],
+      "title": "Internet Research Agency (IRA)",
+      "summary": "A St. Petersburg-based 'troll farm' funded by Yevgeny Prigozhin operating large-scale social media influence operations targeting the US, EU, and Ukraine. Employs hundreds of staff working shifts to maintain fake Western personas across Facebook, Twitter, Instagram and YouTube. US Mueller Report and Senate Intelligence Committee provide detailed documentation of scale and methods. Prigozhin is indicted by the US DOJ in 2018. The IRA continues operating under various names after Prigozhin's death in August 2023.",
+      "sources": [
+        {"label": "Mueller Report — Vol. I (US DOJ, 2019)", "url": ""},
+        {"label": "US Senate Intelligence Committee — Russian Active Measures Campaigns, Vol. 2 (2019)", "url": ""}
+      ],
+      "tags": ["IRA", "Prigozhin", "troll-farm", "social-media", "USA"]
+    },
+
+    {
+      "id": "ru-actor-rt-sputnik",
+      "date": "2005",
+      "type": "outlet",
+      "tier": "documented",
+      "countries": ["RU"],
+      "title": "RT (Russia Today) and Sputnik — state broadcaster and wire service",
+      "summary": "RT (founded 2005) and Sputnik (founded 2014) are Russian state-funded international media organisations. RT receives its editorial mandate from the Presidential Administration; Sputnik is under Rossiya Segodnya, directed by Dmitry Kiselyov. Both are required to register as foreign agents under FARA in the US. The EU bans RT and Sputnik broadcasting in March 2022 following the invasion of Ukraine; both continue distributing via mirrored sites and Telegram. RT receives approximately $300M per year in Russian state funding.",
+      "sources": [
+        {"label": "EU Council Regulation 2022/350 — RT/Sputnik ban (Mar 2022)", "url": ""},
+        {"label": "US DOJ — RT registered as foreign agent (2017)", "url": ""},
+        {"label": "Reuters Institute — RT editorial independence analysis (2017)", "url": ""}
+      ],
+      "tags": ["RT", "Sputnik", "Russia-Today", "state-media", "Kiselyov", "Simonyan", "EU-banned"]
+    },
+
+    {
+      "id": "ru-actor-gru",
+      "date": "1918",
+      "type": "actor",
+      "tier": "documented",
+      "countries": ["RU"],
+      "title": "GRU — Main Directorate of the General Staff",
+      "summary": "Russia's military intelligence directorate, responsible for foreign intelligence collection, signals intelligence, and special operations including cyberattacks and influence operations. Units attributed to documented operations: Unit 26165 (APT28 / Fancy Bear) — responsible for DNC hack and Macron campaign breach; Unit 74455 (Sandworm) — responsible for NotPetya, Ukrainian power grid attacks; Unit 29155 — responsible for Salisbury and other assassination operations. The GRU reports directly to the President.",
+      "sources": [
+        {"label": "US DOJ — GRU indictment (Jul 2018)", "url": ""},
+        {"label": "Bellingcat — GRU Unit 29155 documentation (2019)", "url": "https://www.bellingcat.com/news/2019/10/02/gru-unit-29155-is-responsible-for-attempted-coup-in-montenegro/"}
+      ],
+      "tags": ["GRU", "APT28", "Fancy-Bear", "Sandworm", "Unit-29155", "cyberattack", "intelligence"]
+    },
+
+    {
+      "id": "ru-party-rn",
+      "date": "2014",
+      "type": "party",
+      "tier": "documented",
+      "countries": ["FR", "RU"],
+      "title": "Rassemblement National (RN) — documented Russian financing",
+      "summary": "France's Rassemblement National (formerly Front National) has documented financial ties to Russian-linked banking. A €9.4M loan from First Czech-Russian Bank in 2014 is confirmed. RN MEPs are named in the Voice of Europe probe (2024). Marine Le Pen consistently opposes EU sanctions on Russia, calls for recognition of Crimea, and advocates lifting arms support to Ukraine. The French National Assembly's intelligence commission investigates Russian financing of French political parties.",
+      "sources": [
+        {"label": "French Senate Finance Committee (2015)", "url": ""},
+        {"label": "Czech BIS / EU Council — Voice of Europe (2024)", "url": ""}
+      ],
+      "tags": ["RN", "France", "Le-Pen", "financing", "Voice-of-Europe", "sanctions"]
+    },
+
+    {
+      "id": "ru-party-afd",
+      "date": "2016",
+      "type": "party",
+      "tier": "documented",
+      "countries": ["DE", "RU"],
+      "title": "AfD — Voice of Europe payments and Crimea visits",
+      "summary": "Alternative für Deutschland (AfD) members participate in Kremlin-organised monitoring delegations to Crimea after the 2014 annexation, lending legitimacy to the occupied territory's governance. AfD politician Petr Bystron receives €20,000 in cash via Voice of Europe (2024); his Bundestag immunity is lifted and German prosecutors open an investigation. The AfD consistently opposes arms deliveries to Ukraine and EU sanctions on Russia.",
+      "sources": [
+        {"label": "Der Spiegel — Bystron immunity lifted (2024)", "url": ""},
+        {"label": "Czech BIS Voice of Europe report (2024)", "url": ""}
+      ],
+      "tags": ["AfD", "Germany", "Bystron", "Crimea", "Voice-of-Europe", "cash", "sanctions"]
+    },
+
+    {
+      "id": "ru-party-fpoe",
+      "date": "2016",
+      "type": "party",
+      "tier": "documented",
+      "countries": ["AT", "RU"],
+      "title": "FPÖ — United Russia cooperation pact and intelligence exposure",
+      "summary": "Austria's FPÖ signed a formal cooperation pact with United Russia in December 2016. When FPÖ entered the governing coalition in 2017, receiving the Interior and Foreign Affairs ministries, European intelligence services warned of exposure. Austrian domestic intelligence (BVT) officials subsequently report that sensitive NATO-relevant information may have been accessible to Russian-linked individuals within the FPÖ network. Interior Minister Herbert Kickl (FPÖ) moved to restructure the BVT during the government period.",
+      "sources": [
+        {"label": "RFE/RL — FPÖ-United Russia pact (Dec 2016)", "url": ""},
+        {"label": "Der Spiegel — Austrian intelligence concerns (2019)", "url": ""},
+        {"label": "Der Standard — BVT affair documentation (2018–2019)", "url": ""}
+      ],
+      "tags": ["FPÖ", "Austria", "United-Russia", "Strache", "Kickl", "BVT", "intelligence"]
+    },
+
+    {
+      "id": "ru-party-fidesz",
+      "date": "2010",
+      "type": "party",
+      "tier": "documented",
+      "countries": ["HU", "RU"],
+      "title": "Fidesz — Eastern opening, KESMA, and blocked EU Ukraine aid",
+      "summary": "Viktor Orbán's Fidesz pursues a documented 'Eastern opening' policy aligning Hungary's economic and energy interests with Russia. Rosatom wins the contract to expand Hungary's Paks nuclear plant (2014, €10B, majority Russian financing). Hungary blocks or delays EU Ukraine aid packages multiple times. KESMA concentrates 476 media outlets under Orbán-linked control (2018). Hungary is the only EU member state to maintain high-level Moscow contacts post-invasion, with Orbán visiting Putin in 2024.",
+      "sources": [
+        {"label": "European Parliament resolution on Hungary's rule of law (2022)", "url": ""},
+        {"label": "Politico — Orbán's Russia ties (2024)", "url": ""},
+        {"label": "Reuters — Paks II nuclear deal documentation", "url": ""}
+      ],
+      "tags": ["Fidesz", "Hungary", "Orban", "KESMA", "Rosatom", "Paks", "Eastern-opening"]
+    },
+
+    {
+      "id": "ru-party-fvd",
+      "date": "2017",
+      "type": "party",
+      "tier": "documented",
+      "countries": ["NL", "RU"],
+      "title": "Forum voor Democratie (FvD) — Kremlin email connections",
+      "summary": "Dutch AIVD (General Intelligence and Security Service) warns in 2019 about Russian influence attempts targeting the Netherlands, with specific concern about the Forum voor Democratie. Leaked emails show contacts between FvD founder Thierry Baudet and individuals in the Kremlin's orbit. Baudet has attended events organised by the Russia-linked think tank Schiller Institute. FvD consistently opposes Dutch arms deliveries to Ukraine and has questioned the Netherlands' NATO commitments.",
+      "sources": [
+        {"label": "AIVD annual report (2019) — Russian influence in the Netherlands", "url": ""},
+        {"label": "NRC — FvD Kremlin contacts (2022)", "url": ""},
+        {"label": "De Volkskrant — Baudet Russia connections (2022)", "url": ""}
+      ],
+      "tags": ["FvD", "Netherlands", "Baudet", "AIVD", "Kremlin", "Ukraine"]
+    }
+
+  ]
+}

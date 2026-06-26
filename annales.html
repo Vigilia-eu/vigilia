@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Annales · Vigilia</title>
+<meta name="description" content="Research library. Documented, alleged and suspected influence operations across Europe — tiered by evidence, indexed by country, organised by date." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Ccircle%20cx='16'%20cy='16'%20r='16'%20fill='%230d1933'/%3E%3Ctext%20x='16'%20y='22'%20font-family='Arial'%20font-size='18'%20font-weight='bold'%20fill='%23f0a820'%20text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/vigilia.css" />
+<style>
+  .page-hero { padding: 72px 0 52px; border-bottom: 1px solid var(--line); }
+  .page-hero h1 { font-family: var(--display); text-transform: uppercase; font-size: clamp(2.6rem,5.5vw,4.8rem); line-height: .94; color: #e8f0ff; margin: 12px 0 18px; }
+  .page-hero h1 .hl { color: var(--gold); }
+  .page-hero p { font-size: 1.05rem; color: #c0d0e8; max-width: 60ch; line-height: 1.65; }
+
+  /* tier legend */
+  .tier-legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 28px; }
+  .tl { display: flex; align-items: center; gap: 9px; font-family: var(--cond); font-weight: 700; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; }
+  .tl .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .tl.doc .dot { background: #7ec98f; }
+  .tl.alg .dot { background: var(--gold); }
+  .tl.sus .dot { background: var(--muted); }
+  .tl.doc { color: #7ec98f; }
+  .tl.alg { color: var(--gold); }
+  .tl.sus { color: var(--muted); }
+
+  /* controls */
+  .controls { padding: 28px 0 24px; border-bottom: 1px solid var(--line); background: var(--navy); position: sticky; top: 64px; z-index: 30; }
+  .ctrl-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .search-wrap { position: relative; flex: 1; min-width: 220px; }
+  .search-wrap input { width: 100%; background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 8px; padding: 11px 14px 11px 40px; font-family: var(--sans); font-size: .95rem; color: #e8f0ff; outline: none; transition: border-color .15s; }
+  .search-wrap input::placeholder { color: rgba(255,255,255,.28); }
+  .search-wrap input:focus { border-color: rgba(240,168,32,.5); }
+  .search-wrap .si { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,.3); font-size: .9rem; pointer-events: none; }
+
+  .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { border: none; cursor: pointer; font-family: var(--cond); font-weight: 700; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; padding: 8px 14px; border-radius: 100px; background: rgba(255,255,255,.07); color: var(--muted); border: 1px solid transparent; transition: all .15s; }
+  .chip:hover { background: rgba(255,255,255,.12); color: #e8f0ff; }
+  .chip.on { background: rgba(240,168,32,.12); color: var(--gold); border-color: rgba(240,168,32,.4); }
+  .chip.on.doc { background: rgba(126,201,143,.1); color: #7ec98f; border-color: rgba(126,201,143,.4); }
+  .chip.on.alg { background: rgba(240,168,32,.12); color: var(--gold); border-color: rgba(240,168,32,.4); }
+  .chip.on.sus { background: rgba(176,200,224,.1); color: var(--muted); border-color: rgba(176,200,224,.3); }
+
+  .view-toggle { display: flex; background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .vtb { border: none; background: none; cursor: pointer; padding: 9px 16px; font-family: var(--cond); font-weight: 700; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); transition: all .15s; }
+  .vtb.on { background: rgba(240,168,32,.14); color: var(--gold); }
+
+  /* results bar */
+  .results-bar { padding: 16px 0 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .results-count { font-family: var(--cond); font-weight: 700; font-size: .82rem; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+  .results-count span { color: var(--gold); }
+  .sort-select { background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 6px; padding: 7px 12px; font-family: var(--cond); font-weight: 700; font-size: .75rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); cursor: pointer; outline: none; }
+  .sort-select:focus { border-color: rgba(240,168,32,.4); }
+  .sort-select option { background: var(--navy-2); }
+
+  /* list view */
+  #list-view { margin-top: 20px; display: grid; gap: 10px; }
+  .entry { background: rgba(255,255,255,.035); border: 1px solid var(--line); border-radius: 10px; padding: 18px 22px 18px 18px; display: grid; grid-template-columns: auto 1fr; gap: 16px; border-left: 4px solid transparent; transition: background .15s, border-left-color .15s; cursor: default; }
+  .entry:hover { background: rgba(255,255,255,.06); }
+  .entry.tier-documented { border-left-color: #7ec98f; }
+  .entry.tier-alleged { border-left-color: var(--gold); }
+  .entry.tier-suspected { border-left-color: rgba(176,200,224,.4); }
+
+  .entry-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; min-width: 96px; text-align: right; }
+  .entry-date { font-family: var(--cond); font-weight: 700; font-size: .74rem; letter-spacing: .04em; color: var(--muted); white-space: nowrap; }
+  .tier-badge { font-family: var(--cond); font-weight: 800; font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; white-space: nowrap; }
+  .tier-badge.documented { background: rgba(126,201,143,.14); color: #7ec98f; }
+  .tier-badge.alleged { background: rgba(240,168,32,.14); color: var(--gold); }
+  .tier-badge.suspected { background: rgba(176,200,224,.1); color: var(--muted); }
+  .type-badge { font-family: var(--cond); font-weight: 700; font-size: .62rem; letter-spacing: .07em; text-transform: uppercase; color: rgba(255,255,255,.28); }
+
+  .entry-body h3 { font-family: var(--cond); font-weight: 800; font-size: 1rem; color: #e8f0ff; line-height: 1.2; margin-bottom: 7px; }
+  .entry-body p { font-size: .88rem; color: var(--muted); line-height: 1.55; }
+  .entry-tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .etag { font-family: var(--cond); font-weight: 700; font-size: .62rem; letter-spacing: .05em; text-transform: uppercase; background: rgba(255,255,255,.05); border: 1px solid var(--line); border-radius: 3px; padding: 2px 7px; color: rgba(255,255,255,.35); }
+  .entry-sources { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .src-link { font-family: var(--cond); font-weight: 700; font-size: .7rem; letter-spacing: .04em; text-transform: uppercase; color: var(--gold-2); border-bottom: 1px solid rgba(240,168,32,.3); transition: color .12s; }
+  .src-link:hover { color: var(--gold); }
+  .countries { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .cflag { font-family: var(--cond); font-weight: 700; font-size: .62rem; letter-spacing: .06em; color: rgba(240,168,32,.6); background: rgba(240,168,32,.07); border-radius: 3px; padding: 2px 6px; }
+
+  /* timeline view */
+  #timeline-view { margin-top: 20px; display: none; position: relative; padding-left: 32px; }
+  #timeline-view::before { content: ""; position: absolute; left: 12px; top: 0; bottom: 0; width: 2px; background: rgba(240,168,32,.2); border-radius: 2px; }
+  .tl-group { margin-bottom: 36px; }
+  .tl-year { font-family: var(--display); font-size: 2rem; color: rgba(240,168,32,.35); line-height: 1; margin-bottom: 14px; margin-left: -32px; padding-left: 32px; }
+  .tl-entry { position: relative; padding-left: 20px; margin-bottom: 12px; }
+  .tl-entry::before { content: ""; position: absolute; left: -26px; top: 8px; width: 10px; height: 10px; border-radius: 50%; background: var(--navy); border: 2px solid rgba(240,168,32,.5); }
+  .tl-entry.tier-documented::before { border-color: #7ec98f; background: rgba(126,201,143,.15); }
+  .tl-entry.tier-alleged::before { border-color: var(--gold); background: rgba(240,168,32,.15); }
+  .tl-entry.tier-suspected::before { border-color: var(--muted); }
+  .tl-entry .te-inner { background: rgba(255,255,255,.035); border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px; }
+  .tl-entry:hover .te-inner { background: rgba(255,255,255,.06); }
+  .te-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .te-date { font-family: var(--cond); font-weight: 700; font-size: .72rem; letter-spacing: .04em; color: var(--muted); }
+  .te-title { font-family: var(--cond); font-weight: 800; font-size: .96rem; color: #e8f0ff; line-height: 1.2; }
+  .te-sum { font-size: .86rem; color: var(--muted); line-height: 1.5; margin-top: 5px; }
+
+  /* empty state */
+  .empty { text-align: center; padding: 64px 0; color: var(--muted); font-family: var(--cond); font-weight: 700; font-size: 1rem; letter-spacing: .04em; text-transform: uppercase; }
+  .empty .e-sub { font-weight: 600; font-size: .82rem; letter-spacing: .02em; margin-top: 8px; color: rgba(176,200,224,.5); text-transform: none; }
+
+  @media(max-width:640px) {
+    .entry { grid-template-columns: 1fr; gap: 8px; }
+    .entry-meta { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="mark">V</span>
+      <span class="name">VIGILIA</span>
+      <span class="tagline">Europe's night watch</span>
+    </a>
+    <button class="hamburger" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="sidenav" id="sidenav" aria-label="Site navigation">
+  <div class="sidenav-head">
+    <span class="sidenav-brand">VIGILIA</span>
+    <button class="sidenav-close" id="navClose" aria-label="Close menu">✕</button>
+  </div>
+  <a href="index.html" class="sidenav-link">Vigilia</a>
+  <div class="sidenav-section">Capitula</div>
+  <a href="engine.html" class="sidenav-link">Machina</a>
+  <a href="federation.html" class="sidenav-link">Foederatio</a>
+  <a href="who.html" class="sidenav-link">De Nobis</a>
+  <div class="sidenav-section">Bibliotheca</div>
+  <a href="annales.html" class="sidenav-link active">Annales</a>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">Bibliotheca · Vigilia</span>
+    <h1>Annales<span class="hl">.</span></h1>
+    <p>A structured record of documented, alleged and suspected influence operations across Europe. Every entry is tiered by evidence. Sources are cited. Nothing here is asserted beyond what the record supports.</p>
+    <div class="tier-legend">
+      <div class="tl doc"><div class="dot"></div>Documented — verified by authoritative sources</div>
+      <div class="tl alg"><div class="dot"></div>Alleged — reported, not independently confirmed</div>
+      <div class="tl sus"><div class="dot"></div>Suspected — credible indicators, no definitive proof</div>
+    </div>
+  </div>
+</section>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="ctrl-row">
+      <div class="search-wrap">
+        <span class="si">&#9906;</span>
+        <input type="text" id="search" placeholder="Search entries..." autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="filter-chips" id="tier-filters">
+        <button class="chip on" data-tier="all">All</button>
+        <button class="chip doc" data-tier="documented">Documented</button>
+        <button class="chip alg" data-tier="alleged">Alleged</button>
+        <button class="chip sus" data-tier="suspected">Suspected</button>
+      </div>
+      <div class="filter-chips" id="type-filters">
+        <button class="chip on" data-type="all">All types</button>
+        <button class="chip" data-type="incident">Incident</button>
+        <button class="chip" data-type="operation">Operation</button>
+        <button class="chip" data-type="actor">Actor</button>
+        <button class="chip" data-type="outlet">Outlet</button>
+        <button class="chip" data-type="party">Party</button>
+        <button class="chip" data-type="narrative">Narrative</button>
+        <button class="chip" data-type="doctrine">Doctrine</button>
+      </div>
+      <div class="view-toggle">
+        <button class="vtb on" id="btn-list">List</button>
+        <button class="vtb" id="btn-timeline">Timeline</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="results-bar">
+    <div class="results-count"><span id="count">0</span> entries</div>
+    <select class="sort-select" id="sort">
+      <option value="date-desc">Newest first</option>
+      <option value="date-asc">Oldest first</option>
+      <option value="tier">By tier</option>
+      <option value="type">By type</option>
+    </select>
+  </div>
+
+  <div id="list-view"></div>
+  <div id="timeline-view"></div>
+</div>
+
+<footer class="foot" style="margin-top:80px">
+  <div class="wrap">
+    <div class="foot-brand">
+      <div class="name">VIGILIA</div>
+      <div class="sub">Europe's night watch</div>
+    </div>
+    <div class="foot-links">
+      <a href="index.html">Vigilia</a>
+      <a href="engine.html">Machina</a>
+      <a href="federation.html">Foederatio</a>
+      <a href="who.html">De Nobis</a>
+      <a href="annales.html">Annales</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const toggle=document.getElementById('navToggle');
+  const nav=document.getElementById('sidenav');
+  const overlay=document.getElementById('navOverlay');
+  const close=document.getElementById('navClose');
+  function openNav(){nav.classList.add('open');overlay.classList.add('open');document.body.style.overflow='hidden';}
+  function closeNav(){nav.classList.remove('open');overlay.classList.remove('open');document.body.style.overflow='';}
+  toggle.addEventListener('click',openNav);
+  close.addEventListener('click',closeNav);
+  overlay.addEventListener('click',closeNav);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNav();});
+})();
+
+// ---- data loader ----
+const MANIFEST = 'research/data/manifest.json';
+let ALL = [];
+
+function parseDate(d){
+  if(!d) return new Date(0);
+  if(/^\d{4}$/.test(d)) return new Date(d+'-01-01');
+  if(/^\d{4}-\d{2}$/.test(d)) return new Date(d+'-01');
+  return new Date(d);
+}
+
+function dateLabel(d){
+  if(!d) return '';
+  if(/^\d{4}$/.test(d)) return d;
+  if(/^\d{4}-\d{2}$/.test(d)){
+    const [y,m]=d.split('-');
+    return new Date(y,parseInt(m)-1,1).toLocaleString('en-GB',{month:'short',year:'numeric'});
+  }
+  return new Date(d).toLocaleString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+}
+
+function yearOf(d){ return d ? parseInt(d.slice(0,4)) : 0; }
+
+async function loadAll(){
+  const manifest = await fetch(MANIFEST).then(r=>r.json());
+  const promises = manifest.sources.map(s=>
+    fetch(s.file).then(r=>r.json()).then(data=>{
+      data.entries.forEach(e=>{ e._source = s.id; e._sourceLabel = s.label; e._sourceColor = s.color; });
+      return data.entries;
+    })
+  );
+  const results = await Promise.all(promises);
+  ALL = results.flat();
+  render();
+}
+
+// ---- state ----
+let STATE = { q:'', tier:'all', type:'all', sort:'date-desc', view:'list' };
+
+function filtered(){
+  let entries = [...ALL];
+  if(STATE.q){
+    const q = STATE.q.toLowerCase();
+    entries = entries.filter(e=>
+      e.title.toLowerCase().includes(q) ||
+      (e.summary||'').toLowerCase().includes(q) ||
+      (e.tags||[]).some(t=>t.toLowerCase().includes(q)) ||
+      (e.countries||[]).some(c=>c.toLowerCase().includes(q))
+    );
+  }
+  if(STATE.tier !== 'all') entries = entries.filter(e=>e.tier===STATE.tier);
+  if(STATE.type !== 'all') entries = entries.filter(e=>e.type===STATE.type);
+  // sort
+  if(STATE.sort==='date-desc') entries.sort((a,b)=>parseDate(b.date)-parseDate(a.date));
+  else if(STATE.sort==='date-asc') entries.sort((a,b)=>parseDate(a.date)-parseDate(b.date));
+  else if(STATE.sort==='tier'){
+    const ti={documented:0,alleged:1,suspected:2};
+    entries.sort((a,b)=>(ti[a.tier]||0)-(ti[b.tier]||0));
+  }
+  else if(STATE.sort==='type') entries.sort((a,b)=>a.type.localeCompare(b.type));
+  return entries;
+}
+
+function entryHTML(e){
+  const srcs = (e.sources||[]).filter(s=>s.label);
+  const srcHTML = srcs.length ? '<div class="entry-sources">'+srcs.map(s=>
+    s.url ? `<a class="src-link" href="${s.url}" target="_blank" rel="noopener">${s.label}</a>` : `<span class="src-link" style="cursor:default">${s.label}</span>`
+  ).join('')+'</div>' : '';
+  const ctries = (e.countries||[]).map(c=>`<span class="cflag">${c}</span>`).join('');
+  const tags = (e.tags||[]).slice(0,8).map(t=>`<span class="etag">${t}</span>`).join('');
+  return `
+  <div class="entry tier-${e.tier}">
+    <div class="entry-meta">
+      <div class="entry-date">${dateLabel(e.date)}</div>
+      <span class="tier-badge ${e.tier}">${e.tier}</span>
+      <span class="type-badge">${e.type}</span>
+      ${ctries ? '<div class="countries">'+ctries+'</div>' : ''}
+    </div>
+    <div class="entry-body">
+      <h3>${e.title}</h3>
+      <p>${e.summary||''}</p>
+      ${tags ? '<div class="entry-tags">'+tags+'</div>' : ''}
+      ${srcHTML}
+    </div>
+  </div>`;
+}
+
+function tlEntryHTML(e){
+  const srcs = (e.sources||[]).filter(s=>s.label);
+  const srcHTML = srcs.length ? '<div class="entry-sources" style="margin-top:8px">'+srcs.map(s=>
+    s.url ? `<a class="src-link" href="${s.url}" target="_blank" rel="noopener">${s.label}</a>` : `<span class="src-link" style="cursor:default">${s.label}</span>`
+  ).join('')+'</div>' : '';
+  return `
+  <div class="tl-entry tier-${e.tier}">
+    <div class="te-inner">
+      <div class="te-head">
+        <span class="te-date">${dateLabel(e.date)}</span>
+        <span class="tier-badge ${e.tier}">${e.tier}</span>
+        <span class="type-badge">${e.type}</span>
+      </div>
+      <div class="te-title">${e.title}</div>
+      <div class="te-sum">${e.summary||''}</div>
+      ${srcHTML}
+    </div>
+  </div>`;
+}
+
+function render(){
+  const entries = filtered();
+  document.getElementById('count').textContent = entries.length;
+
+  // list
+  const lv = document.getElementById('list-view');
+  if(entries.length===0){
+    lv.innerHTML='<div class="empty">No entries match your filters<div class="e-sub">Try adjusting the search or filter settings</div></div>';
+  } else {
+    lv.innerHTML = entries.map(entryHTML).join('');
+  }
+
+  // timeline — group by year, sorted by date (always chronological)
+  const tlEntries = [...entries].sort((a,b)=>parseDate(a.date)-parseDate(b.date));
+  const byYear = {};
+  tlEntries.forEach(e=>{ const y=yearOf(e.date); (byYear[y]||(byYear[y]=[])).push(e); });
+  const tv = document.getElementById('timeline-view');
+  if(tlEntries.length===0){
+    tv.innerHTML='<div class="empty">No entries match your filters<div class="e-sub">Try adjusting the search or filter settings</div></div>';
+  } else {
+    tv.innerHTML = Object.keys(byYear).sort().map(y=>
+      `<div class="tl-group"><div class="tl-year">${y}</div>${byYear[y].map(tlEntryHTML).join('')}</div>`
+    ).join('');
+  }
+}
+
+// ---- controls ----
+document.getElementById('search').addEventListener('input',function(){
+  STATE.q = this.value.trim();
+  render();
+});
+
+document.getElementById('tier-filters').addEventListener('click',function(e){
+  const btn=e.target.closest('.chip');
+  if(!btn)return;
+  STATE.tier=btn.dataset.tier;
+  this.querySelectorAll('.chip').forEach(c=>{c.classList.remove('on'); if(c===btn)c.classList.add('on');});
+  render();
+});
+
+document.getElementById('type-filters').addEventListener('click',function(e){
+  const btn=e.target.closest('.chip');
+  if(!btn)return;
+  STATE.type=btn.dataset.type;
+  this.querySelectorAll('.chip').forEach(c=>{c.classList.remove('on'); if(c===btn)c.classList.add('on');});
+  render();
+});
+
+document.getElementById('sort').addEventListener('change',function(){
+  STATE.sort=this.value;
+  render();
+});
+
+document.getElementById('btn-list').addEventListener('click',function(){
+  STATE.view='list';
+  this.classList.add('on');
+  document.getElementById('btn-timeline').classList.remove('on');
+  document.getElementById('list-view').style.display='grid';
+  document.getElementById('timeline-view').style.display='none';
+});
+
+document.getElementById('btn-timeline').addEventListener('click',function(){
+  STATE.view='timeline';
+  this.classList.add('on');
+  document.getElementById('btn-list').classList.remove('on');
+  document.getElementById('list-view').style.display='none';
+  document.getElementById('timeline-view').style.display='block';
+});
+
+loadAll().catch(err=>{
+  document.getElementById('list-view').innerHTML='<div class="empty">Could not load data<div class="e-sub">'+err.message+'</div></div>';
+});
+</script>
+</body>
+</html>
