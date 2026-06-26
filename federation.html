@@ -123,6 +123,14 @@
   .level-role p { font-size: .93rem; color: #c0d0e8; line-height: 1.5; margin: 0; }
   .level-div { border-top: 1px solid var(--line); margin: 14px 0; }
   .ai-role .role-label { color: rgba(240,168,32,.55); }
+
+  /* prose deep-dive */
+  .prose { max-width: 72ch; margin-top: 42px; }
+  .prose h3 { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .04em; font-size: 1rem; color: var(--gold); margin: 38px 0 10px; }
+  .prose h3:first-child { margin-top: 0; }
+  .prose p { font-size: 1.02rem; color: #c0d0e8; line-height: 1.74; margin: 0 0 16px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose .pull { font-family: var(--cond); font-weight: 700; font-size: 1.12rem; color: #e8f0ff; line-height: 1.45; border-left: 3px solid var(--gold); padding-left: 18px; margin: 28px 0; }
 </style>
 </head>
 <body>
@@ -345,6 +353,37 @@
       <div class="layer map">
         <div><div class="lname">Live Europa Map</div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEEP DIVE -->
+<section class="block">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">How it works</span>
+      <h2 class="disp">In detail.</h2>
+    </div>
+    <div class="prose reveal">
+
+      <h3>Downstream — two axes, not one</h3>
+      <p>Content begins with a person. A researcher who has found something. A journalist with a story. A think tank taking a position. A political party that wants to say something. The human is always the source — not an algorithm, not a central editorial committee in Brussels deciding what Europe should think.</p>
+      <p>That story enters Vigilia at the European level. It is developed into a well-sourced, well-argued piece — the kind of thing a serious reader would trust. Then distribution begins, and it moves along two axes at once.</p>
+      <p>The first axis is geographic. A country node in Warsaw receives the story — not as a translation, but as a brief. The Polish pipeline, guided by local editorial judgment, rewrites it for a Polish reader: Polish references, Polish political context, the tone of Polish public discourse. The argument is the same. The voice is native. Regional hubs do the same again — from national to local. What arrived in Warsaw as a Polish piece arrives in Silesia as a Silesian one.</p>
+      <p>The second axis is format. At every node, the pipeline doesn't produce one article — it produces many. A long-form piece for the serious reader. A version rewritten for a younger audience. A shorter current-affairs take. A flash brief for news feeds. Each version goes to a different outlet, a different platform, a different public. The same story, in the format that fits the context.</p>
+      <div class="pull">One story from Brussels becomes dozens of pieces across a single country — in multiple formats, through multiple outlets, all carrying the same core argument in voices that feel local.</div>
+
+      <h3>Upstream — the same principle, reversed</h3>
+      <p>The journalist in Gdańsk doesn't wait for Brussels. He writes about what he sees — local politics, a local incident, a pattern he's noticed in his community. That piece enters Vigilia at the moment of creation, ideally through Vigilia tools built into his workflow, so it's already in the system before he's published anywhere else.</p>
+      <p>From there, the same two axes apply in reverse. Format pipelines rewrite it for multiple local outlets — the long version and the short one, the general-interest version and the specialist one, the social-ready version and the newsletter version. The story that began as one journalist's observation now reaches the whole regional media landscape.</p>
+      <p>And it flows up. The national node receives it. If it's nationally relevant, the national pipeline adapts it for the country. If it connects to a broader European theme, it travels further — to Brussels, where it joins everything else flowing in from nodes across the continent. That upstream river is what makes Vigilia an intelligence system, not just a distribution network.</p>
+
+      <h3>The flywheel</h3>
+      <p>The power here isn't only reach. It's repetition.</p>
+      <p>A reader in Warsaw encounters the story as a flash brief on their phone. They see a longer version later in a newsletter they trust. A friend shares a take on it in a format they prefer. Three times, three different contexts, three different entry points — but the same argument, the same grounding, the same direction.</p>
+      <p>When enough outlets carry a story, something happens without any coordination: genuine grassroots voices start picking it up and sharing it on their own. Not because anyone asked them to. Because it's present everywhere. Because it reads as true and local. That is the point where Vigilia's reach multiplies beyond what any central operation could organise.</p>
+      <div class="pull">Vigilia plants the story. Grassroots carries it the rest of the way.</div>
+
     </div>
   </div>
 </section>
