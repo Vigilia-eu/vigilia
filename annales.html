@@ -133,6 +133,11 @@
   .ctry-entry p { font-size: .84rem; color: var(--muted); line-height: 1.5; }
   .ctry-note { padding: 10px 14px; font-family: var(--cond); font-size: .75rem; color: rgba(176,200,224,.4); font-style: italic; }
 
+  /* factiones + personae */
+  .party-short { font-family: var(--cond); font-weight: 700; font-size: .68rem; letter-spacing: .07em; text-transform: uppercase; color: var(--gold-2); background: rgba(240,168,32,.08); border: 1px solid rgba(240,168,32,.22); border-radius: 3px; padding: 2px 7px; }
+  .party-founded { font-family: var(--cond); font-weight: 700; font-size: .68rem; color: rgba(176,200,224,.38); }
+  .pers-role { font-family: var(--cond); font-weight: 700; font-size: .76rem; letter-spacing: .02em; color: var(--muted); flex: 1; }
+
   /* map view */
   .map-container {
     position: relative; margin-top: 20px;
@@ -181,6 +186,7 @@
   <div class="sidenav-section">Capitula</div>
   <a href="engine.html" class="sidenav-link">Machina</a>
   <a href="federation.html" class="sidenav-link">Foederatio</a>
+  <a href="explorator.html" class="sidenav-link">Explorator</a>
   <a href="who.html" class="sidenav-link">De Nobis</a>
   <div class="sidenav-section">Bibliotheca</div>
   <a href="annales.html" class="sidenav-link active">Annales</a>
@@ -226,6 +232,8 @@
       <div class="view-toggle">
         <button class="vtb on" id="btn-list">List</button>
         <button class="vtb" id="btn-country">Terrae</button>
+        <button class="vtb" id="btn-factiones">Factiones</button>
+        <button class="vtb" id="btn-personae">Personae</button>
         <button class="vtb" id="btn-timeline">Timeline</button>
         <button class="vtb" id="btn-map">Map</button>
       </div>
@@ -246,6 +254,8 @@
 
   <div id="list-view"></div>
   <div id="country-view"></div>
+  <div id="factiones-view"></div>
+  <div id="personae-view"></div>
   <div id="timeline-view"></div>
   <div class="map-container" id="map-view"></div>
 </div>
@@ -269,6 +279,7 @@
       <a href="index.html">Vigilia</a>
       <a href="engine.html">Machina</a>
       <a href="federation.html">Foederatio</a>
+      <a href="explorator.html">Explorator</a>
       <a href="who.html">De Nobis</a>
       <a href="annales.html">Annales</a>
     </div>
@@ -292,6 +303,8 @@
 // ---- data loader ----
 const MANIFEST = 'research/data/manifest.json';
 let ALL = [];
+let ENTITY_PARTIES = {};
+let ENTITY_PERSONS = {};
 
 function parseDate(d){
   if(!d) return new Date(0);
@@ -316,6 +329,10 @@ async function loadAll(){
   const manifest = await fetch(MANIFEST).then(r=>r.json());
   const promises = manifest.sources.map(s=>
     fetch(s.file).then(r=>r.json()).then(data=>{
+      if(data.entities){
+        Object.assign(ENTITY_PARTIES, data.entities.parties||{});
+        Object.assign(ENTITY_PERSONS, data.entities.persons||{});
+      }
       data.entries.forEach(e=>{ e._source = s.id; e._sourceLabel = s.label; e._sourceColor = s.color; });
       return data.entries;
     })
@@ -336,7 +353,9 @@ function filtered(){
       e.title.toLowerCase().includes(q) ||
       (e.summary||'').toLowerCase().includes(q) ||
       (e.tags||[]).some(t=>t.toLowerCase().includes(q)) ||
-      (e.countries||[]).some(c=>c.toLowerCase().includes(q))
+      (e.countries||[]).some(c=>c.toLowerCase().includes(q)) ||
+      (e.parties||[]).some(p=>{ const pd=ENTITY_PARTIES[p]; return pd&&(pd.name.toLowerCase().includes(q)||pd.short.toLowerCase().includes(q)); }) ||
+      (e.persons||[]).some(p=>{ const pd=ENTITY_PERSONS[p]; return pd&&pd.name.toLowerCase().includes(q); })
     );
   }
   if(STATE.tier !== 'all') entries = entries.filter(e=>e.tier===STATE.tier);
@@ -401,6 +420,8 @@ function render(){
   document.getElementById('count').textContent = entries.length;
   if(STATE.view==='map'){ buildMap(entries); }
   if(STATE.view==='country'){ renderCountry(entries); }
+  if(STATE.view==='factiones'){ renderFactiones(entries); }
+  if(STATE.view==='personae'){ renderPersonae(entries); }
 
   // list
   const lv = document.getElementById('list-view');
@@ -451,6 +472,25 @@ document.getElementById('sort').addEventListener('change',function(){
   render();
 });
 
+// Shared compact entry card (used in Terrae, Factiones, Personae)
+function entryCardHTML(e){
+  const srcs=(e.sources||[]).filter(s=>s.label);
+  const srcHTML=srcs.length?'<div class="entry-sources" style="margin-top:8px">'+srcs.slice(0,3).map(s=>
+    s.url?`<a class="src-link" href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`
+         :`<span class="src-link" style="cursor:default">${s.label}</span>`
+  ).join('')+'</div>':'';
+  return `<div class="ctry-entry tier-${e.tier}">
+    <div class="ctry-entry-head">
+      <span class="entry-date">${dateLabel(e.date)}</span>
+      <span class="tier-badge ${e.tier}">${e.tier}</span>
+      <span class="type-badge">${e.type}</span>
+    </div>
+    <h4>${e.title}</h4>
+    <p>${(e.summary||'').slice(0,220)}${e.summary&&e.summary.length>220?'…':''}</p>
+    ${srcHTML}
+  </div>`;
+}
+
 // Country / Terrae data
 const EU27 = new Set(['AT','BE','BG','CY','CZ','DE','DK','EE','ES','FI','FR','GR','HR','HU','IE','IT','LT','LU','LV','MT','NL','PL','PT','RO','SE','SI','SK']);
 const COUNTRY_NAMES = {
@@ -489,23 +529,6 @@ function renderCountry(entries){
     if(ae!==be2) return ae?-1:1;
     return (COUNTRY_NAMES[a]||a).localeCompare(COUNTRY_NAMES[b]||b);
   });
-  const ctryEntryHTML=e=>{
-    const srcs=(e.sources||[]).filter(s=>s.label);
-    const srcHTML=srcs.length?'<div class="entry-sources" style="margin-top:8px">'+srcs.slice(0,3).map(s=>
-      s.url?`<a class="src-link" href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`
-           :`<span class="src-link" style="cursor:default">${s.label}</span>`
-    ).join('')+'</div>':'';
-    return `<div class="ctry-entry tier-${e.tier}">
-      <div class="ctry-entry-head">
-        <span class="entry-date">${dateLabel(e.date)}</span>
-        <span class="tier-badge ${e.tier}">${e.tier}</span>
-        <span class="type-badge">${e.type}</span>
-      </div>
-      <h4>${e.title}</h4>
-      <p>${(e.summary||'').slice(0,200)}${e.summary&&e.summary.length>200?'…':''}</p>
-      ${srcHTML}
-    </div>`;
-  };
   el.innerHTML=codes.map((c,i)=>{
     const ces=byCountry[c];
     const flag=COUNTRY_FLAGS[c]||'';
@@ -522,7 +545,7 @@ function renderCountry(entries){
         <span class="ctry-arrow">›</span>
       </div>
       <div class="ctry-entries${i===0?' open':''}">
-        ${sorted.map(ctryEntryHTML).join('')}
+        ${sorted.map(entryCardHTML).join('')}
         ${ces.length>1?`<div class="ctry-note">${ces.length} entries involve ${name}. An entry may appear under multiple countries.</div>`:''}
       </div>
     </div>`;
@@ -536,20 +559,102 @@ function toggleCtry(head){
   entries.classList.toggle('open',!isOpen);
 }
 
+function renderFactiones(entries){
+  const el=document.getElementById('factiones-view');
+  const byParty={};
+  entries.forEach(e=>{
+    (e.parties||[]).forEach(k=>{
+      if(!byParty[k]) byParty[k]=[];
+      byParty[k].push(e);
+    });
+  });
+  const keys=Object.keys(byParty);
+  if(!keys.length){ el.innerHTML='<div class="empty">No party links in current filter<div class="e-sub">Expand search or filters to see party connections</div></div>'; return; }
+  keys.sort((a,b)=>{
+    const pa=ENTITY_PARTIES[a]||{}, pb=ENTITY_PARTIES[b]||{};
+    const ae=EU27.has(pa.country||''), be2=EU27.has(pb.country||'');
+    if(ae!==be2) return ae?-1:1;
+    return (pa.name||a).localeCompare(pb.name||b);
+  });
+  el.innerHTML=keys.map((k,i)=>{
+    const p=ENTITY_PARTIES[k]||{name:k,short:k,country:'',founded:''};
+    const flag=COUNTRY_FLAGS[p.country]||'';
+    const euBadge=EU27.has(p.country||'')?'<span class="ctry-eu">EU member</span>':'';
+    const foundedBadge=p.founded?`<span class="party-founded">est. ${p.founded}</span>`:'';
+    const sorted=[...byParty[k]].sort((a,b)=>parseDate(b.date)-parseDate(a.date));
+    return `<div class="ctry-section">
+      <div class="ctry-head${i===0?' open':''}" onclick="toggleCtry(this)">
+        <span class="ctry-flag">${flag}</span>
+        <span class="ctry-name">${p.name}</span>
+        <span class="party-short">${p.short}</span>
+        ${euBadge}
+        ${foundedBadge}
+        <span class="ctry-count">${sorted.length} ${sorted.length===1?'entry':'entries'}</span>
+        <span class="ctry-arrow">›</span>
+      </div>
+      <div class="ctry-entries${i===0?' open':''}">
+        ${sorted.map(entryCardHTML).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderPersonae(entries){
+  const el=document.getElementById('personae-view');
+  const byPerson={};
+  entries.forEach(e=>{
+    (e.persons||[]).forEach(k=>{
+      if(!byPerson[k]) byPerson[k]=[];
+      byPerson[k].push(e);
+    });
+  });
+  const keys=Object.keys(byPerson);
+  if(!keys.length){ el.innerHTML='<div class="empty">No person links in current filter<div class="e-sub">Expand search or filters to see person connections</div></div>'; return; }
+  keys.sort((a,b)=>{
+    const pa=ENTITY_PERSONS[a]||{}, pb=ENTITY_PERSONS[b]||{};
+    const ae=EU27.has(pa.country||''), be2=EU27.has(pb.country||'');
+    if(ae!==be2) return ae?-1:1;
+    return (pa.name||a).localeCompare(pb.name||b);
+  });
+  el.innerHTML=keys.map((k,i)=>{
+    const p=ENTITY_PERSONS[k]||{name:k,role:'',country:''};
+    const flag=COUNTRY_FLAGS[p.country]||'';
+    const euBadge=EU27.has(p.country||'')?'<span class="ctry-eu">EU</span>':'';
+    const sorted=[...byPerson[k]].sort((a,b)=>parseDate(b.date)-parseDate(a.date));
+    return `<div class="ctry-section">
+      <div class="ctry-head${i===0?' open':''}" onclick="toggleCtry(this)">
+        <span class="ctry-flag">${flag}</span>
+        <span class="ctry-name">${p.name}</span>
+        <span class="pers-role">${p.role}</span>
+        ${euBadge}
+        <span class="ctry-count">${sorted.length} ${sorted.length===1?'entry':'entries'}</span>
+        <span class="ctry-arrow">›</span>
+      </div>
+      <div class="ctry-entries${i===0?' open':''}">
+        ${sorted.map(entryCardHTML).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
 function setView(v){
   STATE.view=v;
-  ['list','country','timeline','map'].forEach(id=>{
+  ['list','country','factiones','personae','timeline','map'].forEach(id=>{
     const btn=document.getElementById('btn-'+id);
     if(btn) btn.classList.toggle('on', id===v);
   });
   document.getElementById('list-view').style.display = v==='list' ? 'grid' : 'none';
   document.getElementById('country-view').style.display = v==='country' ? 'block' : 'none';
+  document.getElementById('factiones-view').style.display = v==='factiones' ? 'block' : 'none';
+  document.getElementById('personae-view').style.display = v==='personae' ? 'block' : 'none';
   document.getElementById('timeline-view').style.display = v==='timeline' ? 'block' : 'none';
   document.getElementById('map-view').style.display = v==='map' ? 'block' : 'none';
 }
 
 document.getElementById('btn-list').addEventListener('click',function(){ setView('list'); });
 document.getElementById('btn-country').addEventListener('click',function(){ setView('country'); renderCountry(filtered()); });
+document.getElementById('btn-factiones').addEventListener('click',function(){ setView('factiones'); renderFactiones(filtered()); });
+document.getElementById('btn-personae').addEventListener('click',function(){ setView('personae'); renderPersonae(filtered()); });
 document.getElementById('btn-timeline').addEventListener('click',function(){ setView('timeline'); });
 document.getElementById('btn-map').addEventListener('click',function(){ setView('map'); buildMap(filtered()); });
 

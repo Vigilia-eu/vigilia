@@ -63,7 +63,8 @@
   .layer-card .lmore:hover { color: var(--gold); }
 
   /* chapters */
-  .chapters { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 42px; }
+  .chapters { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; margin-top: 42px; }
+  @media(max-width:560px) { .chapters { grid-template-columns: 1fr; } }
   @media(max-width:760px) { .chapters { grid-template-columns: 1fr; } }
   .chapter { display: flex; flex-direction: column; background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; text-decoration: none; color: inherit; transition: transform .18s ease, box-shadow .18s ease; }
   .chapter:hover { transform: translateY(-4px); box-shadow: 0 20px 42px -24px rgba(0,0,0,.5); }
@@ -106,6 +107,7 @@
   <div class="sidenav-section">Capitula</div>
   <a href="engine.html" class="sidenav-link">Machina</a>
   <a href="federation.html" class="sidenav-link">Foederatio</a>
+  <a href="explorator.html" class="sidenav-link">Explorator</a>
   <a href="who.html" class="sidenav-link">De Nobis</a>
   <div class="sidenav-section">Bibliotheca</div>
   <a href="annales.html" class="sidenav-link">Annales</a>
@@ -198,7 +200,7 @@
   <div class="wrap">
     <div class="lead reveal">
       <span class="eyebrow">The chapters</span>
-      <h2 class="disp">One system. <span class="hl">Three stories.</span></h2>
+      <h2 class="disp">One system. <span class="hl">Four stories.</span></h2>
       <p>Each part of Vigilia tells its own story. Together they form a single loop: detect, respond, spread — and learn.</p>
     </div>
     <div class="chapters reveal">
@@ -218,9 +220,17 @@
         </div>
         <div class="ch-foot">Read the chapter</div>
       </a>
-      <a href="who.html" class="chapter">
+      <a href="explorator.html" class="chapter">
         <div class="ch-top">
           <div class="ch-num">Caput III</div>
+          <h3>Explorator</h3>
+          <p>The reconnaissance layer. Monitors source tiers from seedbed to mainstream, detects coordinated narratives at Stage 1–2, and triggers human response before the mainstream jump. Active before the threat arrives.</p>
+        </div>
+        <div class="ch-foot">Read the chapter</div>
+      </a>
+      <a href="who.html" class="chapter">
+        <div class="ch-top">
+          <div class="ch-num">Caput IV</div>
           <h3>De Nobis</h3>
           <p>Two people and a shared conviction: Europe is already strong — it just doesn't know it yet. What it needs is more presence. Not pseudonyms. Real outlets, real voices, one bigger story.</p>
         </div>
@@ -250,6 +260,7 @@
       <a href="index.html">Vigilia</a>
       <a href="engine.html">Machina</a>
       <a href="federation.html">Foederatio</a>
+      <a href="explorator.html">Explorator</a>
       <a href="who.html">De Nobis</a>
       <a href="annales.html">Annales</a>
     </div>

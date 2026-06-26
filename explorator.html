@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Explorator · Vigilia</title>
+<meta name="description" content="Vigilia's reconnaissance layer. Monitors source tiers across Europe, detects coordinated narratives at Stage 1–2, and triggers human response before the mainstream jump." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Ccircle%20cx='16'%20cy='16'%20r='16'%20fill='%230d1933'/%3E%3Ctext%20x='16'%20y='22'%20font-family='Arial'%20font-size='18'%20font-weight='bold'%20fill='%23f0a820'%20text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/vigilia.css" />
+<style>
+  .page-hero { padding: 80px 0 60px; border-bottom: 1px solid var(--line); }
+  .page-hero h1 { font-family: var(--display); text-transform: uppercase; font-size: clamp(2.4rem,5.5vw,4.4rem); line-height: .96; color: #e8f0ff; margin: 14px 0 20px; }
+  .page-hero h1 .hl { color: var(--gold); }
+  .page-hero p { font-size: 1.1rem; color: #c0d0e8; max-width: 56ch; line-height: 1.65; }
+
+  /* stat ribbon */
+  .ribbon { background: var(--navy-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .ribbon .wrap { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; padding: 32px 28px; }
+  @media(max-width:760px) { .ribbon .wrap { grid-template-columns: repeat(2,1fr); gap: 24px 8px; } }
+  .stat .n { font-family: var(--display); font-size: clamp(2rem,4.4vw,3rem); color: var(--gold); line-height: 1; }
+  .stat .l { font-family: var(--cond); font-weight: 600; font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+
+  /* source tiers */
+  .tier-stack { display: flex; flex-direction: column; gap: 0; margin-top: 42px; max-width: 760px; }
+  .tier { display: flex; align-items: flex-start; gap: 22px; padding: 22px 24px; border: 1px solid var(--line); border-bottom: none; position: relative; }
+  .tier:first-child { border-radius: 14px 14px 0 0; }
+  .tier:last-child { border-bottom: 1px solid var(--line); border-radius: 0 0 14px 14px; }
+  .tier.seed { background: rgba(255,255,255,.03); }
+  .tier.fringe { background: rgba(255,255,255,.04); }
+  .tier.political { background: rgba(255,255,255,.055); }
+  .tier.mainstream { background: rgba(255,255,255,.07); }
+  .tier-num { font-family: var(--display); font-size: 2rem; color: rgba(240,168,32,.18); line-height: 1; flex: none; width: 36px; text-align: center; }
+  .tier-body { flex: 1; }
+  .tier-name { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .05em; font-size: .9rem; color: #e8f0ff; margin-bottom: 4px; }
+  .tier-desc { font-size: .9rem; color: var(--muted); line-height: 1.5; }
+  .tier-badge { flex: none; font-family: var(--cond); font-weight: 700; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; padding: 5px 12px; border-radius: 4px; align-self: center; }
+  .tier-badge.catch { background: rgba(240,168,32,.15); color: var(--gold); border: 1px solid rgba(240,168,32,.3); }
+  .tier-badge.late { background: rgba(255,255,255,.06); color: var(--muted); border: 1px solid var(--line); }
+  .tier-connector { width: 2px; height: 0; background: rgba(240,168,32,.3); margin: 0 auto; }
+
+  /* time race */
+  .race { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 42px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  @media(max-width:680px) { .race { grid-template-columns: 1fr; } }
+  .race-col { padding: 32px 28px; }
+  .race-col.adversary { background: rgba(255,255,255,.03); }
+  .race-col.vigilia { background: rgba(240,168,32,.06); border-left: 3px solid var(--gold); }
+  @media(max-width:680px) { .race-col.vigilia { border-left: none; border-top: 3px solid var(--gold); } }
+  .race-label { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .07em; font-size: .75rem; color: var(--muted); margin-bottom: 20px; }
+  .race-col.vigilia .race-label { color: var(--gold); }
+  .race-step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+  .race-step:last-child { margin-bottom: 0; }
+  .race-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; margin-top: 6px; }
+  .race-col.vigilia .race-dot { background: var(--gold); }
+  .race-dot.fire { background: var(--gold); box-shadow: 0 0 8px rgba(240,168,32,.5); }
+  .race-step p { font-size: .92rem; color: #c0d0e8; line-height: 1.45; margin: 0; }
+  .race-step p .t { font-family: var(--cond); font-weight: 700; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--gold); display: block; margin-bottom: 2px; }
+  .race-col.adversary .race-step p .t { color: var(--muted); }
+
+  /* separation principle */
+  .sep { background: rgba(240,168,32,.05); border: 1.5px solid rgba(240,168,32,.25); border-radius: 14px; padding: 36px 38px; margin-top: 42px; max-width: 760px; }
+  .sep-title { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: .85rem; color: var(--gold); margin-bottom: 12px; }
+  .sep p { font-size: 1rem; color: #c0d0e8; line-height: 1.65; margin: 0 0 14px; }
+  .sep p:last-child { margin-bottom: 0; }
+  .sep-flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 18px 0; }
+  .sep-node { font-family: var(--cond); font-weight: 700; font-size: .82rem; text-transform: uppercase; letter-spacing: .03em; padding: 10px 16px; border-radius: 8px; color: #e8f0ff; background: rgba(255,255,255,.07); border: 1px solid var(--line); }
+  .sep-node.gold { background: rgba(240,168,32,.15); border-color: rgba(240,168,32,.4); color: var(--gold); }
+  .sep-arr { color: rgba(240,168,32,.5); font-weight: 700; font-size: 1.1rem; }
+  .sep-human { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+
+  /* in the federation */
+  .fed-connect { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 42px; }
+  @media(max-width:680px) { .fed-connect { grid-template-columns: 1fr; } }
+  .fc { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 14px; padding: 24px 22px; border-top: 3px solid var(--gold); }
+  .fc h3 { font-family: var(--cond); font-weight: 800; text-transform: uppercase; letter-spacing: .04em; font-size: .95rem; color: #e8f0ff; margin-bottom: 8px; }
+  .fc p { font-size: .9rem; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="mark">V</span>
+      <span class="name">VIGILIA</span>
+      <span class="tagline">Europe's night watch</span>
+    </a>
+    <button class="hamburger" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="sidenav" id="sidenav" aria-label="Site navigation">
+  <div class="sidenav-head">
+    <span class="sidenav-brand">VIGILIA</span>
+    <button class="sidenav-close" id="navClose" aria-label="Close menu">✕</button>
+  </div>
+  <a href="index.html" class="sidenav-link">Vigilia</a>
+  <div class="sidenav-section">Capitula</div>
+  <a href="engine.html" class="sidenav-link">Machina</a>
+  <a href="federation.html" class="sidenav-link">Foederatio</a>
+  <a href="explorator.html" class="sidenav-link active">Explorator</a>
+  <a href="who.html" class="sidenav-link">De Nobis</a>
+  <div class="sidenav-section">Bibliotheca</div>
+  <a href="annales.html" class="sidenav-link">Annales</a>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow reveal">Caput III</span>
+    <h1 class="reveal">The reconnaissance <span class="hl">layer.</span></h1>
+    <p class="reveal">Active before the threat arrives. Explorator monitors public source tiers across Europe — from seedbed channels to mainstream outlets — and detects coordinated narratives at Stage 1–2, before they bridge to the mainstream. Not a fact-checker. A scout.</p>
+  </div>
+</section>
+
+<!-- LIVE STATS -->
+<div class="ribbon">
+  <div class="wrap">
+    <div class="stat reveal"><div class="n">877</div><div class="l">Raw items monitored</div></div>
+    <div class="stat reveal"><div class="n">62</div><div class="l">Active narratives</div></div>
+    <div class="stat reveal"><div class="n">32</div><div class="l">Clusters tracked</div></div>
+    <div class="stat reveal"><div class="n">31</div><div class="l">RSS feeds</div></div>
+    <div class="stat reveal"><div class="n">12</div><div class="l">Telegram channels</div></div>
+  </div>
+</div>
+
+<!-- SOURCE TIERS -->
+<section class="block">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">The source tiers</span>
+      <h2 class="disp">Where narratives <span class="hl">begin.</span></h2>
+      <p>A coordinated narrative doesn't start in a newspaper. It starts in the dark — seeded in fringe channels, amplified by bots, and only then picked up by journalists and politicians. Explorator watches every tier. It catches the pattern at the source.</p>
+    </div>
+    <div class="tier-stack reveal">
+      <div class="tier seed">
+        <div class="tier-num">1</div>
+        <div class="tier-body">
+          <div class="tier-name">Seedbed</div>
+          <div class="tier-desc">Telegram dark channels, fringe forums, deniable local infrastructure. Extreme content, untraceable origins. This is where coordinated narratives are born.</div>
+        </div>
+        <div class="tier-badge catch">Explorator active</div>
+      </div>
+      <div class="tier fringe">
+        <div class="tier-num">2</div>
+        <div class="tier-body">
+          <div class="tier-name">Fringe amplification</div>
+          <div class="tier-desc">Bot networks and coordinated accounts manufacture false consensus. The narrative starts to look like "what people think." Velocity spikes here.</div>
+        </div>
+        <div class="tier-badge catch">Explorator active</div>
+      </div>
+      <div class="tier political">
+        <div class="tier-num">3</div>
+        <div class="tier-body">
+          <div class="tier-name">Bridge</div>
+          <div class="tier-desc">Political influencers and sympathetic journalists pick it up. The source chain breaks. The narrative now travels without its origin. Intervention costs 3–5× more here.</div>
+        </div>
+        <div class="tier-badge late">Late. Response already deployed.</div>
+      </div>
+      <div class="tier mainstream">
+        <div class="tier-num">4</div>
+        <div class="tier-body">
+          <div class="tier-name">Mainstream</div>
+          <div class="tier-desc">A politician cites it. A newspaper covers it. It is now the news. Intervention here costs ten times what it costs at Stage 1.</div>
+        </div>
+        <div class="tier-badge late">Too late for Explorator.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE TIME RACE -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">The time race</span>
+      <h2 class="disp">Earlier than <span class="hl">the threat.</span></h2>
+      <p>The goal is not to respond — it is to be there first. When Explorator catches a narrative at Stage 1, the response is already in motion before the adversary reaches Stage 3.</p>
+    </div>
+    <div class="race reveal">
+      <div class="race-col adversary">
+        <div class="race-label">Adversarial timeline</div>
+        <div class="race-step">
+          <div class="race-dot"></div>
+          <p><span class="t">Stage 1</span>Narrative seeded in fringe channels. Deniable. Still invisible to mainstream media.</p>
+        </div>
+        <div class="race-step">
+          <div class="race-dot"></div>
+          <p><span class="t">Stage 2</span>Bot amplification. False consensus manufactured. Engagement metrics rise.</p>
+        </div>
+        <div class="race-step">
+          <div class="race-dot"></div>
+          <p><span class="t">Stage 3</span>Influencers and journalists pick it up. Source chain breaks. Narrative travels without origin.</p>
+        </div>
+        <div class="race-step">
+          <div class="race-dot"></div>
+          <p><span class="t">Stage 4</span>Mainstream jump. Politician cites it. It is now the news.</p>
+        </div>
+      </div>
+      <div class="race-col vigilia">
+        <div class="race-label">Vigilia response</div>
+        <div class="race-step">
+          <div class="race-dot fire"></div>
+          <p><span class="t">Stage 1 — Explorator fires</span>Pattern detected. Velocity, coordination, escalation scored. Alert sent to human analyst.</p>
+        </div>
+        <div class="race-step">
+          <div class="race-dot fire"></div>
+          <p><span class="t">Within hours</span>Journalists briefed. Researchers tasked. Institutions notified. Counter-narrative prepared.</p>
+        </div>
+        <div class="race-step">
+          <div class="race-dot fire"></div>
+          <p><span class="t">Before Stage 3</span>Machina publishes. Our narrative is in the field. The ground is already occupied.</p>
+        </div>
+        <div class="race-step">
+          <div class="race-dot"></div>
+          <p><span class="t">Stage 3 arrives</span>The reader who first encounters the adversarial narrative has already seen ours.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT SCORES -->
+<section class="block">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">How it works</span>
+      <h2 class="disp">Content-blind. <span class="hl">Pattern-sharp.</span></h2>
+      <p>Explorator does not read for political position. It reads for coordination. A narrative being pushed hard from many directions at once, faster than organic spread would explain — that is the signal, regardless of what the narrative says.</p>
+    </div>
+    <div class="flows reveal">
+      <div class="flow">
+        <div class="ar">⚡</div>
+        <h3>Velocity</h3>
+        <p>How fast is a narrative spreading relative to organic baseline? Sudden acceleration across unrelated accounts is a coordination signal, not a news event.</p>
+      </div>
+      <div class="flow">
+        <div class="ar">⊕</div>
+        <h3>Coordination</h3>
+        <p>Are multiple accounts pushing the same framing at the same time? Cross-channel correlation surfaces manufactured consensus that no single channel reveals on its own.</p>
+      </div>
+      <div class="flow">
+        <div class="ar">↑</div>
+        <h3>Escalation</h3>
+        <p>Is the narrative climbing tiers — from seedbed to fringe to political? Tier-climbing at speed is the bridge pattern. Catching it here is the whole point.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE SEPARATION PRINCIPLE -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">The separation principle</span>
+      <h2 class="disp">Explorator fires. <span class="hl">Humans decide.</span></h2>
+    </div>
+    <div class="sep reveal">
+      <div class="sep-title">The rule that cannot be broken</div>
+      <p>Explorator never triggers editorial action directly. It surfaces patterns to a human analyst. The analyst decides: is this signal real? Is the urgency high enough to mobilise? What response is appropriate?</p>
+      <div class="sep-flow">
+        <div class="sep-node gold">Explorator detects</div>
+        <div class="sep-arr">→</div>
+        <div class="sep-node sep-human">Human analyst judges</div>
+        <div class="sep-arr">→</div>
+        <div class="sep-node">Journalists briefed</div>
+        <div class="sep-arr">→</div>
+        <div class="sep-node">Machina publishes</div>
+      </div>
+      <p>This is what separates Vigilia from the networks it monitors. Those networks automate the full cycle — detect, amplify, publish — without a human in the loop. Vigilia does not. The human analyst is the only bridge between reconnaissance and response. That is not a limitation. It is the architecture of legitimacy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- IN THE FEDERATION -->
+<section class="block">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="eyebrow">In the federation</span>
+      <h2 class="disp">One Explorator <span class="hl">per node.</span></h2>
+      <p>Every country node in the Vigilia network runs its own Explorator instance — monitoring local sources, in the local language, for the patterns that only surface at regional level. What they find feeds upward.</p>
+    </div>
+    <div class="fed-connect">
+      <div class="fc reveal">
+        <h3>Local sources</h3>
+        <p>Each node monitors its own regional and national source tier — RSS feeds, Telegram channels, political accounts in the local language. A narrative seeding in Polish fringe channels is visible to the Polish node before it appears anywhere else.</p>
+      </div>
+      <div class="fc reveal">
+        <h3>Upstream intelligence</h3>
+        <p>Every cluster detected by every node flows upstream to Brussels. Cross-border patterns — the same narrative seeding simultaneously in Hungary, Slovakia, and Austria — become visible only when nodes share what they see.</p>
+      </div>
+      <div class="fc reveal">
+        <h3>Live Europa Map</h3>
+        <p>The aggregated upstream intelligence from all Explorator instances is what builds the Live Europa Map: a real-time picture of narrative activity across the continent, visible from the centre, steerable from Brussels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-brand">
+      <div class="name">VIGILIA</div>
+      <div class="sub">Europe's night watch</div>
+    </div>
+    <div class="foot-links">
+      <a href="index.html">Vigilia</a>
+      <a href="engine.html">Machina</a>
+      <a href="federation.html">Foederatio</a>
+      <a href="explorator.html">Explorator</a>
+      <a href="who.html">De Nobis</a>
+      <a href="annales.html">Annales</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const toggle=document.getElementById('navToggle');
+  const nav=document.getElementById('sidenav');
+  const overlay=document.getElementById('navOverlay');
+  const close=document.getElementById('navClose');
+  function openNav(){nav.classList.add('open');overlay.classList.add('open');document.body.style.overflow='hidden';}
+  function closeNav(){nav.classList.remove('open');overlay.classList.remove('open');document.body.style.overflow='';}
+  toggle.addEventListener('click',openNav);
+  close.addEventListener('click',closeNav);
+  overlay.addEventListener('click',closeNav);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNav();});
+})();
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*60+'ms';io.observe(el);});
+</script>
+</body>
+</html>
