@@ -3,6 +3,34 @@
   "title": "Russian influence operations",
   "description": "Documented, alleged and suspected Russian state-sponsored influence operations across Europe and the United States. Evidence tiers: documented = verified by authoritative sources; alleged = reported but not independently confirmed; suspected = credible indicators without definitive proof.",
   "updated": "2026-06-26",
+
+  "entities": {
+    "parties": {
+      "rn":     {"name": "Rassemblement National",              "short": "RN",     "country": "FR", "founded": 1972},
+      "afd":    {"name": "Alternative für Deutschland",         "short": "AfD",    "country": "DE", "founded": 2013},
+      "fpoe":   {"name": "Freiheitliche Partei Österreichs",   "short": "FPÖ",    "country": "AT", "founded": 1956},
+      "fidesz": {"name": "Fidesz – Magyar Polgári Szövetség",  "short": "Fidesz", "country": "HU", "founded": 1988},
+      "fvd":    {"name": "Forum voor Democratie",               "short": "FvD",    "country": "NL", "founded": 2016},
+      "lega":   {"name": "Lega",                                "short": "Lega",   "country": "IT", "founded": 1991},
+      "pvv":    {"name": "Partij voor de Vrijheid",             "short": "PVV",    "country": "NL", "founded": 2006}
+    },
+    "persons": {
+      "gerasimov":  {"name": "Valery Gerasimov",         "role": "Chief of the Russian General Staff",           "country": "RU"},
+      "prigozhin":  {"name": "Yevgeny Prigozhin",        "role": "IRA funder / Wagner Group founder",            "country": "RU"},
+      "lavrov":     {"name": "Sergei Lavrov",             "role": "Russian Foreign Minister",                     "country": "RU"},
+      "medvedchuk": {"name": "Viktor Medvedchuk",        "role": "Voice of Europe coordinator",                  "country": "UA"},
+      "le-pen":     {"name": "Marine Le Pen",             "role": "Leader, Rassemblement National",               "country": "FR"},
+      "bystron":    {"name": "Petr Bystron",              "role": "AfD member of Bundestag",                      "country": "DE"},
+      "baudet":     {"name": "Thierry Baudet",            "role": "FvD founder and party leader",                 "country": "NL"},
+      "orban":      {"name": "Viktor Orbán",              "role": "Prime Minister of Hungary / Fidesz leader",   "country": "HU"},
+      "strache":    {"name": "Heinz-Christian Strache",   "role": "FPÖ leader (2005–2019)",                       "country": "AT"},
+      "kickl":      {"name": "Herbert Kickl",             "role": "FPÖ leader / Interior Minister 2017–2019",    "country": "AT"},
+      "savoini":    {"name": "Gianluca Savoini",          "role": "Lega official / Metropol meeting participant", "country": "IT"},
+      "salvini":    {"name": "Matteo Salvini",            "role": "Lega leader / Deputy Prime Minister",          "country": "IT"},
+      "georgescu":  {"name": "Călin Georgescu",           "role": "Romanian presidential candidate (2024)",       "country": "RO"}
+    }
+  },
+
   "entries": [
 
     {
@@ -25,6 +53,7 @@
       "type": "doctrine",
       "tier": "documented",
       "countries": ["RU"],
+      "persons": ["gerasimov"],
       "title": "Gerasimov article: the value of science is in the foresight",
       "summary": "Chief of the General Staff Valery Gerasimov publishes an article describing modern warfare as a blend of military and non-military means, with information operations, political destabilisation, and proxy forces preceding and exceeding kinetic action. Widely described in the West as the 'Gerasimov doctrine', though Gerasimov was describing observed NATO practice as much as prescribing Russian strategy.",
       "sources": [
@@ -85,6 +114,8 @@
       "type": "incident",
       "tier": "documented",
       "countries": ["RU", "FR", "CZ"],
+      "parties": ["rn"],
+      "persons": ["le-pen"],
       "title": "RN receives €9.4M loan from First Czech-Russian Bank",
       "summary": "Rassemblement National (then Front National) receives a €9.4 million loan from First Czech-Russian Bank, a lender with documented ties to the Russian state. The loan enables the party to finance its 2014 European election campaign. Marine Le Pen subsequently opposes EU sanctions on Russia and calls for recognition of Crimea as Russian territory. The French Senate investigates; the bank later goes into liquidation.",
       "sources": [
@@ -101,6 +132,7 @@
       "type": "operation",
       "tier": "documented",
       "countries": ["RU", "US"],
+      "persons": ["prigozhin"],
       "title": "Internet Research Agency — US election interference operation",
       "summary": "The Internet Research Agency (IRA), a St. Petersburg-based organisation funded by Yevgeny Prigozhin, runs a large-scale social media operation targeting the 2016 US presidential election. The operation includes fake American personas, divisive content amplification, and targeted advertising on Facebook, Twitter and YouTube. The Mueller Report (2019) identifies 13 IRA individuals and 3 companies; the US indicts them under FARA and wire fraud statutes. Facebook removes 470 IRA-linked accounts; Twitter removes 3,814.",
       "sources": [
@@ -131,6 +163,7 @@
       "type": "incident",
       "tier": "documented",
       "countries": ["RU", "DE"],
+      "persons": ["lavrov"],
       "title": "Lisa case — fabricated rape amplified as Russian state operation",
       "summary": "A 13-year-old Russian-German girl (Lisa) goes missing in Berlin for 30 hours. Russian state media and social media accounts immediately amplify a fabricated story that she was gang-raped by migrants. German police quickly establish the story is false — Lisa had stayed voluntarily at a friend's house. Foreign Minister Sergei Lavrov nonetheless publicly repeats the fabricated story, alleging a political cover-up. The German Federal Government formally identifies the episode as a deliberate Russian information operation. Russian-German community protests are organised via social media before the case is resolved.",
       "sources": [
@@ -147,6 +180,8 @@
       "type": "incident",
       "tier": "documented",
       "countries": ["RU", "AT"],
+      "parties": ["fpoe"],
+      "persons": ["strache"],
       "title": "FPÖ signs cooperation pact with United Russia",
       "summary": "Austria's Freedom Party (FPÖ) signs a formal cooperation agreement with United Russia, Vladimir Putin's ruling party. The five-year pact — the first of its kind between a Russian party and a Western European party — covers 'partner events', exchange of political experience, and contacts between youth branches. When FPÖ subsequently enters the Austrian government coalition (2017–2019) and receives the Interior and Foreign ministries, European intelligence services warn about exposure of sensitive information.",
       "sources": [
@@ -194,6 +229,8 @@
       "type": "incident",
       "tier": "documented",
       "countries": ["HU", "RU"],
+      "parties": ["fidesz"],
+      "persons": ["orban"],
       "title": "KESMA: 476 Hungarian outlets merged under Orbán-aligned foundation",
       "summary": "476 Hungarian media outlets — covering television, radio, print and online — are merged into KESMA (Central European Press and Media Foundation) and transferred to it free of charge. The foundation is chaired by Orbán allies. Hungary's Competition Authority is stripped of jurisdiction over the deal by emergency decree. The consolidated media landscape ensures near-total alignment between domestic coverage and government positions, including on Ukraine and EU sanctions on Russia. The OSCE media freedom representative expresses concern.",
       "sources": [
@@ -210,6 +247,8 @@
       "type": "incident",
       "tier": "alleged",
       "countries": ["RU", "IT"],
+      "parties": ["lega"],
+      "persons": ["savoini", "salvini"],
       "title": "Lega/Metropol tape: alleged $65M oil deal discussion",
       "summary": "BuzzFeed News and L'Espresso publish a recording of a meeting at the Metropol Hotel in Moscow (October 2018) between three senior Lega officials — including Gianluca Savoini, a close aide to Matteo Salvini — and three Russians. The conversation discusses a mechanism by which Russian state oil company Rosneft would sell diesel to an Italian company at a discount; the differential would be used to fund Lega. A sum of approximately $65 million is discussed. Neither Salvini nor Lega is recorded in the tape. Italian prosecutors open an investigation; no charges have been filed as of the 2026 update. Savoini denies wrongdoing.",
       "sources": [
@@ -272,6 +311,8 @@
       "type": "operation",
       "tier": "documented",
       "countries": ["RU", "CZ", "NL", "BE", "DE", "FR", "HU", "PL"],
+      "parties": ["afd", "rn"],
+      "persons": ["bystron", "medvedchuk"],
       "title": "Voice of Europe — cash payments to MEPs exposed by Czech intelligence",
       "summary": "Czech security service BIS exposes Voice of Europe, a Prague-based Kremlin-linked outlet, as a conduit for cash payments to European politicians in exchange for pro-Russian statements and parliamentary interventions. Documented payments or offers are confirmed in the Netherlands, Belgium, Germany, France, Hungary, and Poland. AfD politician Petr Bystron is confirmed to have received €20,000 in cash; his parliamentary immunity is lifted. Voice of Europe is sanctioned by the EU and its coordinator, Viktor Medvedchuk, is included on the EU sanctions list.",
       "sources": [
@@ -288,6 +329,7 @@
       "type": "incident",
       "tier": "documented",
       "countries": ["RU", "RO"],
+      "persons": ["georgescu"],
       "title": "Romanian presidential election annulled after Russian TikTok operation",
       "summary": "Romania's Constitutional Court annuls the first round of the presidential election after classified intelligence reveals a coordinated TikTok amplification campaign boosted candidate Calin Georgescu from 5% in polls to 22% in the vote. Over 25,000 TikTok accounts are identified as part of the coordinated network, operating in violation of platform rules. The Romanian Supreme Council of National Defence attributes the operation to Russian-linked actors. Georgescu is subsequently barred from the re-run election.",
       "sources": [
@@ -304,6 +346,7 @@
       "type": "narrative",
       "tier": "documented",
       "countries": ["RU", "UA", "DE", "FR"],
+      "parties": ["fpoe", "afd", "rn"],
       "title": "Narrative: Ukraine is a Nazi state",
       "summary": "Core Kremlin narrative propagated since 2014 to delegitimise Ukraine's government and justify military intervention. The kernel of truth: the Azov battalion was founded by members with documented far-right views. The inflation: this is used to characterise the Ukrainian state and armed forces as collectively neo-Nazi, serving as the stated justification for the 2022 invasion ('denazification'). Propagation path: RT and Sputnik → Kremlin spokespersons → far-right European outlets (News Front, InfoRos) → sympathetic politicians (FPÖ, AfD, RN).",
       "sources": [
@@ -319,6 +362,7 @@
       "type": "narrative",
       "tier": "documented",
       "countries": ["RU", "DE", "NL", "FR", "IT", "SE"],
+      "parties": ["afd", "pvv", "lega", "rn", "fvd"],
       "title": "Narrative: migrants as crime and replacement wave",
       "summary": "A persistent Kremlin-amplified narrative linking migration to crime, cultural destruction, and deliberate 'replacement' of European populations. The kernel of truth: real migration pressures and isolated criminal incidents. The inflation: individual incidents are generalised into systemic patterns and linked to 'Great Replacement' conspiracy theory. Cases are fabricated (Lisa case, 2016) or selectively amplified. The narrative reaches mainstream European parties via Telegram channels and far-right media before being laundered into political discourse by AfD, PVV, Lega, RN, and FvD.",
       "sources": [
@@ -350,6 +394,7 @@
       "type": "narrative",
       "tier": "documented",
       "countries": ["RU", "DE", "FR", "IT", "HU"],
+      "parties": ["rn", "afd", "lega", "fidesz"],
       "title": "Narrative: sanctions hurt Europe more than Russia",
       "summary": "A Kremlin-amplified narrative arguing that EU sanctions on Russia are self-defeating, driving European energy prices, inflation, and deindustrialisation while leaving Russia unharmed. The kernel of truth: real energy-price pain and economic disruption are documented across EU member states following the 2022 invasion. The inflation: the narrative steers public opinion toward dropping Ukraine support, portraying EU governments as acting against their own populations' interests. Propagated via Doppelganger fake press outlets, RT/Sputnik (before the ban), and amplified by RN, AfD, Lega, and Fidesz.",
       "sources": [
@@ -365,6 +410,7 @@
       "type": "actor",
       "tier": "documented",
       "countries": ["RU"],
+      "persons": ["prigozhin"],
       "title": "Internet Research Agency (IRA)",
       "summary": "A St. Petersburg-based 'troll farm' funded by Yevgeny Prigozhin operating large-scale social media influence operations targeting the US, EU, and Ukraine. Employs hundreds of staff working shifts to maintain fake Western personas across Facebook, Twitter, Instagram and YouTube. US Mueller Report and Senate Intelligence Committee provide detailed documentation of scale and methods. Prigozhin is indicted by the US DOJ in 2018. The IRA continues operating under various names after Prigozhin's death in August 2023.",
       "sources": [
@@ -411,6 +457,8 @@
       "type": "party",
       "tier": "documented",
       "countries": ["FR", "RU"],
+      "parties": ["rn"],
+      "persons": ["le-pen"],
       "title": "Rassemblement National (RN) — documented Russian financing",
       "summary": "France's Rassemblement National (formerly Front National) has documented financial ties to Russian-linked banking. A €9.4M loan from First Czech-Russian Bank in 2014 is confirmed. RN MEPs are named in the Voice of Europe probe (2024). Marine Le Pen consistently opposes EU sanctions on Russia, calls for recognition of Crimea, and advocates lifting arms support to Ukraine. The French National Assembly's intelligence commission investigates Russian financing of French political parties.",
       "sources": [
@@ -426,6 +474,8 @@
       "type": "party",
       "tier": "documented",
       "countries": ["DE", "RU"],
+      "parties": ["afd"],
+      "persons": ["bystron"],
       "title": "AfD — Voice of Europe payments and Crimea visits",
       "summary": "Alternative für Deutschland (AfD) members participate in Kremlin-organised monitoring delegations to Crimea after the 2014 annexation, lending legitimacy to the occupied territory's governance. AfD politician Petr Bystron receives €20,000 in cash via Voice of Europe (2024); his Bundestag immunity is lifted and German prosecutors open an investigation. The AfD consistently opposes arms deliveries to Ukraine and EU sanctions on Russia.",
       "sources": [
@@ -441,6 +491,8 @@
       "type": "party",
       "tier": "documented",
       "countries": ["AT", "RU"],
+      "parties": ["fpoe"],
+      "persons": ["strache", "kickl"],
       "title": "FPÖ — United Russia cooperation pact and intelligence exposure",
       "summary": "Austria's FPÖ signed a formal cooperation pact with United Russia in December 2016. When FPÖ entered the governing coalition in 2017, receiving the Interior and Foreign Affairs ministries, European intelligence services warned of exposure. Austrian domestic intelligence (BVT) officials subsequently report that sensitive NATO-relevant information may have been accessible to Russian-linked individuals within the FPÖ network. Interior Minister Herbert Kickl (FPÖ) moved to restructure the BVT during the government period.",
       "sources": [
@@ -457,6 +509,8 @@
       "type": "party",
       "tier": "documented",
       "countries": ["HU", "RU"],
+      "parties": ["fidesz"],
+      "persons": ["orban"],
       "title": "Fidesz — Eastern opening, KESMA, and blocked EU Ukraine aid",
       "summary": "Viktor Orbán's Fidesz pursues a documented 'Eastern opening' policy aligning Hungary's economic and energy interests with Russia. Rosatom wins the contract to expand Hungary's Paks nuclear plant (2014, €10B, majority Russian financing). Hungary blocks or delays EU Ukraine aid packages multiple times. KESMA concentrates 476 media outlets under Orbán-linked control (2018). Hungary is the only EU member state to maintain high-level Moscow contacts post-invasion, with Orbán visiting Putin in 2024.",
       "sources": [
@@ -473,6 +527,8 @@
       "type": "party",
       "tier": "documented",
       "countries": ["NL", "RU"],
+      "parties": ["fvd"],
+      "persons": ["baudet"],
       "title": "Forum voor Democratie (FvD) — Kremlin email connections",
       "summary": "Dutch AIVD (General Intelligence and Security Service) warns in 2019 about Russian influence attempts targeting the Netherlands, with specific concern about the Forum voor Democratie. Leaked emails show contacts between FvD founder Thierry Baudet and individuals in the Kremlin's orbit. Baudet has attended events organised by the Russia-linked think tank Schiller Institute. FvD consistently opposes Dutch arms deliveries to Ukraine and has questioned the Netherlands' NATO commitments.",
       "sources": [
